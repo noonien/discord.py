@@ -1,17 +1,21 @@
 import os, re
 import discord
 import asyncio
-
 from plugin import PluginManager
 from cloudbot.event import Event, CommandEvent
 from bare_loader import plugin
 
-plugin_manager = PluginManager(None)
-plugin_manager.load_all(os.path.abspath("plugins"))
-
-command_prefix = "."
+class DiscordWrapper():
+    def __init__(self, discord_client, plugin_manager):
+        self.discord_client = discord_client
+        self.plugin_manager = plugin_manager
 
 client = discord.Client()
+plugin_manager = PluginManager(client)
+plugin_manager.load_all(os.path.abspath("plugins"))
+command_prefix = "."
+
+dwrapper = DiscordWrapper(client, plugin_manager)
 
 async def polling_task():
     global plugin_manager
@@ -21,7 +25,7 @@ async def polling_task():
     while not client.is_closed:
         for name, plugin in plugin_manager.plugins.items():
             for periodic in plugin.periodic:
-                event = Event(bot=None, hook=periodic)
+                event = Event(bot=dwrapper, hook=periodic)
                 plugin_manager.launch(periodic, event)
 
         await asyncio.sleep(1)
@@ -37,7 +41,7 @@ async def on_message(message):
         await client.send_message(message.channel, msg)
         
     tasks = []
-    event = Event()
+    event = Event(bot=dwrapper)
     event.content = message.content
     event.chan = message.channel
     event.conn = client
@@ -61,6 +65,8 @@ async def on_ready():
     print(client.user.name)
     print(client.user.id)
     print('------')
+    client.connections = {}
+    client.connections[0] = client
 
 client.loop.create_task(polling_task())
 
