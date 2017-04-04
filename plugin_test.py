@@ -97,7 +97,10 @@ async def polling_task():
     await client.wait_until_ready()
 
     while not client.is_closed:
-        dwrapper.on_periodic()
+        try:
+            dwrapper.on_periodic()
+        except:
+            pass
         
         while len(dwrapper.to_send) > 0:
             elem = dwrapper.to_send.pop()
@@ -120,7 +123,10 @@ async def on_message(message):
         msg = 'Hello {0.author.mention}'.format(message)
         await client.send_message(message.channel, msg)
     
-    dwrapper.on_message(message)
+    try:
+        dwrapper.on_message(message)
+    except:
+        pass
 
     while len(dwrapper.to_send) > 0:
         elem = dwrapper.to_send.pop()
