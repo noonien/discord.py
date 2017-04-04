@@ -3,9 +3,10 @@ import discord
 import asyncio
 import time
 import logging
+import plugin
+import json
 from plugin import PluginManager
 from cloudbot.event import Event, CommandEvent, EventType
-from bare_loader import plugin
 
 class DiscordWrapper():
     def __init__(self, discord_client, plugin_manager):
@@ -14,18 +15,13 @@ class DiscordWrapper():
         self.connections = {}
         
         self.connections[0] = self
-        self.config = {}
-        
-        self.config["api_keys"] = {}
-        self.config["api_keys"]["google_dev_key"] = "AIzaSyCVp4jFP4N3F6iHCMf-402auSA3L-x71sI"
-        
-        self.config["command_prefix"] = "."
-        
         
         self.to_send = []
-        
         self.name = "roddit"
         self.logger = logging.getLogger("cloudbot")
+        
+        with open('bot_config.json') as data_file:
+            self.config = json.load(data_file)
         
     def __getattr__(self, name):
         msg = "'{}' object has no attribute '{}'"
@@ -41,6 +37,13 @@ class DiscordWrapper():
     def notice(self, target, text):
         print("notice (%s) %s" % (target, text))
         self.to_send.append((target, text))
+        
+    def get_channel_by_name(self, cname):
+        for server in client.servers:
+            for channel in server.channels:
+                if channel.name == cname:
+                    return channel
+        return None
     
     def on_message(self, message):
         event = Event(bot=dwrapper, event_type=EventType.message)
@@ -58,7 +61,7 @@ class DiscordWrapper():
                 self.plugin_manager.launch(raw_hook, Event(hook=raw_hook, base_event=event))
 
         
-        command_re = r'(?i)^(?:[{}]|{}[,;:]+\s+)(\w+)(?:$|\s+)(.*)'.format(command_prefix, event.nick)
+        command_re = r'(?i)^(?:[{}]|{}[,;:]+\s+)(\w+)(?:$|\s+)(.*)'.format(self.config["command_prefix"], event.nick)
         cmd_match = re.match(command_re, event.content)
         if cmd_match:
             command = cmd_match.group(1).lower()
@@ -83,18 +86,21 @@ plugin_manager = PluginManager(dwrapper)
 plugin_manager.load_all(os.path.abspath("plugins"))
 
 dwrapper.plugin_manager = plugin_manager
-command_prefix = "."
 
 async def polling_task():
     global plugin_manager
     await client.wait_until_ready()
 
-    channel = discord.Object(id='297483005763780613')
     while not client.is_closed:
         dwrapper.on_periodic()
         
         while len(dwrapper.to_send) > 0:
             elem = dwrapper.to_send.pop()
+            cname = elem[0]
+            if cname[0] == "#":
+                cname = cname[1:]
+                
+            channel = dwrapper.get_channel_by_name(cname)
             await client.send_message(channel, elem[1])
 
         await asyncio.sleep(1)
@@ -113,8 +119,12 @@ async def on_message(message):
 
     while len(dwrapper.to_send) > 0:
         elem = dwrapper.to_send.pop()
-        await client.send_message(message.channel, elem[1])
-
+        if elem[0] is None:
+            await client.send_message(message.channel, elem[1])
+        else:
+            channel = dwrapper.get_channel_by_name(elem[0])
+            await client.send_message(channel, elem[1])
+        
 @client.event
 async def on_ready():
     print('Logged in as')
@@ -126,4 +136,4 @@ async def on_ready():
 
 client.loop.create_task(polling_task())
 
-client.run('Mjk3NDgzMTk1NjI3MzM5Nzc3.C8BcvA.VBAA0nMlD3iIPQdOdtPuuMi4kv0')
+client.run(dwrapper.config["discord_token"])
