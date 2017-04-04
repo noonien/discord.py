@@ -18,6 +18,7 @@ class DiscordWrapper():
         
         self.to_send = []
         self.name = "roddit"
+        self.data_dir = "data"
         self.logger = logging.getLogger("cloudbot")
         
         with open('bot_config.json') as data_file:
@@ -38,6 +39,10 @@ class DiscordWrapper():
         print("notice (%s) %s" % (target, text))
         self.to_send.append((target, text))
         
+    def action(self, target, text):
+        print("action (%s) %s" % (target, text))
+        self.to_send.append((target, text))
+    
     def get_channel_by_name(self, cname):
         for server in client.servers:
             for channel in server.channels:
