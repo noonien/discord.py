@@ -48,7 +48,7 @@ class DiscordWrapper():
     def on_message(self, message):
         event = Event(bot=dwrapper, event_type=EventType.message)
         event.content = message.content
-        event.chan = message.channel
+        event.chan = message.channel.name
         event.conn = self
         event.nick = message.author.name #TODO .mention on mentions
         self.nick = client.user.name
@@ -119,6 +119,11 @@ async def on_message(message):
 
     while len(dwrapper.to_send) > 0:
         elem = dwrapper.to_send.pop()
+        
+        cname = elem[0]
+        if cname[0] == "#":
+            cname = cname[1:]
+        
         if elem[0] is None:
             await client.send_message(message.channel, elem[1])
         else:
