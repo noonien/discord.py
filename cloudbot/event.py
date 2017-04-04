@@ -245,7 +245,7 @@ class Event:
 #        if target == self.nick or not reply_ping:
 #            self.conn.message(target, *messages)
 #        else:
-        self.conn.message(target, "({}) {}".format(self.nick, messages[0]), *messages[1:])
+        self.conn.message(self.chan, "({}) {}".format(self.nick, messages[0]), *messages[1:])
 
     def action(self, message, target=None):
         """sends an action to the current channel/user or a specific channel/user
@@ -257,7 +257,7 @@ class Event:
                 raise ValueError("Target must be specified when chan is not assigned")
             target = self.chan
 
-        self.conn.action(target, message)
+        self.conn.action(self.chan, message)
 
     def notice(self, message, target=None):
         """sends a notice to the current channel/user or a specific channel/user
