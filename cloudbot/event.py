@@ -271,10 +271,11 @@ class Event:
             target = self.nick
 
         # we have a config option to avoid noticing user and PM them instead, so we use it here
-        if avoid_notices:
-            self.conn.message(target, message)
-        else:
-            self.conn.notice(target, message)
+        #if avoid_notices:
+        #self.conn.message(target, message)
+        self.conn.message(self.chan, message)
+        #else:
+        #    self.conn.notice(target, message)
 
     def has_permission(self, permission, notice=True):
         """ returns whether or not the current user has a given permission
