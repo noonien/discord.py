@@ -231,8 +231,7 @@ class Event:
             if self.chan is None:
                 raise ValueError("Target must be specified when chan is not assigned")
             target = self.chan
-        #self.conn.send_message(target, message)
-        self.reply_message = message
+        self.conn.message( target, message)
 
     def reply(self, *messages, target=None):
         """sends a message to the current channel/user with a prefix
@@ -243,12 +242,10 @@ class Event:
         if not messages:  # if there are no messages specified, don't do anything
             return
 
-        if target == self.nick:
-            #self.conn.send_message(target, *messages)
-            pass
-        else:
-            #self.conn.send_message(target, "({}) {}".format(self.nick, messages[0]), *messages[1:])
-            self.reply_message = "({}) {}".format(self.nick, *messages)
+#        if target == self.nick or not reply_ping:
+#            self.conn.message(target, *messages)
+#        else:
+        self.conn.message(target, "({}) {}".format(self.nick, messages[0]), *messages[1:])
 
     def action(self, message, target=None):
         """sends an action to the current channel/user or a specific channel/user
@@ -284,10 +281,10 @@ class Event:
         :type permission: str
         :rtype: bool
         """
-        if not self.mask:
-            raise ValueError("has_permission requires mask is not assigned")
-        return self.conn.permissions.has_perm_mask(self.mask, permission, notice=notice)
-
+        #if not self.mask:
+        #    raise ValueError("has_permission requires mask is not assigned")
+        #return self.conn.permissions.has_perm_mask(self.mask, permission, notice=notice)
+        return True
 
 class CommandEvent(Event):
     """

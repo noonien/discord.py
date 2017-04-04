@@ -6,6 +6,7 @@ import logging
 import os
 import re
 import sys
+import time
 
 import sqlalchemy
 
@@ -193,6 +194,18 @@ class PluginManager:
                 else:
                     self.commands[alias] = command_hook
             self._log_hook(command_hook)
+
+        # register raw hooks
+        for raw_hook in plugin.raw_hooks:
+            if raw_hook.is_catch_all():
+                self.catch_all_triggers.append(raw_hook)
+            else:
+                for trigger in raw_hook.triggers:
+                    if trigger in self.raw_triggers:
+                        self.raw_triggers[trigger].append(raw_hook)
+                    else:
+                        self.raw_triggers[trigger] = [raw_hook]
+            self._log_hook(raw_hook)
 
         # register events
         for event_hook in plugin.events:
@@ -591,6 +604,7 @@ class PeriodicHook(Hook):
 
         self.interval = periodic_hook.interval
         self.initial_interval = periodic_hook.kwargs.pop("initial_interval", self.interval)
+        self.last_time = time.time()
 
         super().__init__("periodic", plugin, periodic_hook)
 
