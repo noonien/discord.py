@@ -5,6 +5,7 @@ import time
 import logging
 import plugin
 import json
+import traceback
 from plugin import PluginManager
 from cloudbot.event import Event, CommandEvent, EventType
 
@@ -99,8 +100,9 @@ async def polling_task():
     while not client.is_closed:
         try:
             dwrapper.on_periodic()
-        except:
-            pass
+        except Exception:
+            traceback.print_stack()
+            traceback.print_exc()
         
         while len(dwrapper.to_send) > 0:
             elem = dwrapper.to_send.pop()
@@ -111,7 +113,7 @@ async def polling_task():
             channel = dwrapper.get_channel_by_name(cname)
             await client.send_message(channel, elem[1])
 
-        await asyncio.sleep(1)
+        await asyncio.sleep(10)
 
 @client.event
 async def on_message(message):
@@ -125,8 +127,9 @@ async def on_message(message):
     
     try:
         dwrapper.on_message(message)
-    except:
-        pass
+    except Exception:
+        traceback.print_stack()
+        traceback.print_exc()
 
     while len(dwrapper.to_send) > 0:
         elem = dwrapper.to_send.pop()
