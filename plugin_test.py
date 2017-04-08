@@ -6,6 +6,7 @@ import logging
 import plugin
 import json
 import traceback
+import threading
 from plugin import PluginManager
 from cloudbot.event import Event, CommandEvent, EventType
 
@@ -76,7 +77,10 @@ class DiscordWrapper():
                 command_event = CommandEvent(hook=command_hook, text=cmd_match.group(2).strip(),
                                          triggered_command=command, base_event=event)
                 
-                self.plugin_manager.launch(command_hook, command_event)
+                # TODO account for these
+                thread = threading.Thread(target=self.plugin_manager.launch, args=(command_hook, command_event))
+                thread.start()
+                #self.plugin_manager.launch(command_hook, command_event)
                 
     def on_periodic(self):
         for name, plugin in self.plugin_manager.plugins.items():
@@ -84,7 +88,18 @@ class DiscordWrapper():
                 if time.time() - periodic.last_time > periodic.interval:
                     periodic.last_time = time.time()
                     event = Event(bot=dwrapper, hook=periodic)
-                    self.plugin_manager.launch(periodic, event)
+                    
+                    # TODO account for these
+                    thread = threading.Thread(target=self.plugin_manager.launch, args=(periodic, event))
+                    thread.start()
+                    #self.plugin_manager.launch(periodic, event)
+
+
+logger = logging.getLogger('discord')
+logger.setLevel(logging.DEBUG)
+handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
+handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+logger.addHandler(handler)
 
 client = discord.Client()
 dwrapper = DiscordWrapper(client, None)
@@ -113,7 +128,7 @@ async def polling_task():
             channel = dwrapper.get_channel_by_name(cname)
             await client.send_message(channel, elem[1])
 
-        await asyncio.sleep(10)
+        await asyncio.sleep(1)
 
 @client.event
 async def on_message(message):
