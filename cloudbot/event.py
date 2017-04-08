@@ -41,7 +41,7 @@ class Event:
     """
 
     def __init__(self, *, bot=None, hook=None, conn=None, base_event=None, event_type=EventType.other, content=None,
-                 target=None, channel=None, nick=None, user=None, host=None, mask=None, irc_raw=None, irc_prefix=None,
+                 target=None, channel=None, nick=None, author=None, user=None, host=None, mask=None, irc_raw=None, irc_prefix=None,
                  irc_command=None, irc_paramlist=None, irc_ctcp_text=None):
         """
         All of these parameters except for `bot` and `hook` are optional.
@@ -105,6 +105,7 @@ class Event:
             self.target = base_event.target
             self.chan = base_event.chan
             self.nick = base_event.nick
+            self.author = base_event.author
             self.user = base_event.user
             self.host = base_event.host
             self.mask = base_event.mask
@@ -121,6 +122,7 @@ class Event:
             self.target = target
             self.chan = channel
             self.nick = nick
+            self.author = author
             self.user = user
             self.host = host
             self.mask = mask

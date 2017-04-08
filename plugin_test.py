@@ -56,6 +56,7 @@ class DiscordWrapper():
         event = Event(bot=dwrapper, event_type=EventType.message)
         event.content = message.content
         event.chan = message.channel.name
+        event.author = message.author
         event.conn = self
         event.nick = message.author.name #TODO .mention on mentions
         self.nick = client.user.name
