@@ -1,0 +1,97 @@
+import traceback
+import os
+import logging
+import time
+import threading
+import re
+import plugin
+import json
+from plugin import PluginManager
+from cloudbot.event import Event, CommandEvent, EventType
+
+class DiscordWrapper():
+    def __init__(self, discord_client):
+        self.discord_client = discord_client
+        self.plugin_manager = PluginManager(self)
+
+        self.connections = {}
+        self.connections[0] = self
+        
+        self.to_send = []
+        self.name = "roddit"
+        self.data_dir = "data"
+        self.logger = logging.getLogger("cloudbot")
+        
+        with open('bot_config.json') as data_file:
+            self.config = json.load(data_file)
+            
+        self.plugin_manager.load_all(os.path.abspath("plugins"))
+        
+    def __getattr__(self, name):
+        msg = "'{}' object has no attribute '{}'"
+        raise AttributeError(msg.format(self.__class__, name))
+
+    def __setattr__(self, name, value):
+        object.__setattr__(self, name, value)
+        
+    def message(self, target, message):
+        print("send (%s) %s" % (target, message))
+        self.to_send.append((target, message))
+    
+    def notice(self, target, text):
+        print("notice (%s) %s" % (target, text))
+        self.to_send.append((target, text))
+        
+    def action(self, target, text):
+        print("action (%s) %s" % (target, text))
+        self.to_send.append((target, text))
+    
+    def get_channel_by_name(self, cname):
+        for server in self.discord_client.servers:
+            for channel in server.channels:
+                if channel.name == cname:
+                    return channel
+        return None
+    
+    def on_message(self, message):
+        event = Event(bot=self, event_type=EventType.message)
+        event.content = message.content
+        event.chan = message.channel.name
+        event.author = message.author
+        event.conn = self
+        event.nick = message.author.name #TODO .mention on mentions
+        self.nick = self.discord_client.user.name
+        
+        # Raw IRC hook
+        for raw_hook in self.plugin_manager.catch_all_triggers:
+            self.plugin_manager.launch(raw_hook, Event(hook=raw_hook, base_event=event))
+        if event.irc_command in self.plugin_manager.raw_triggers:
+            for raw_hook in self.plugin_manager.raw_triggers[event.irc_command]:
+                self.plugin_manager.launch(raw_hook, Event(hook=raw_hook, base_event=event))
+
+        
+        command_re = r'(?i)^(?:[{}]|{}[,;:]+\s+)(\w+)(?:$|\s+)(.*)'.format(self.config["command_prefix"], event.nick)
+        cmd_match = re.match(command_re, event.content)
+        if cmd_match:
+            command = cmd_match.group(1).lower()
+            if command in self.plugin_manager.commands:
+                command_hook = self.plugin_manager.commands[command]
+                command_event = CommandEvent(hook=command_hook, text=cmd_match.group(2).strip(),
+                                         triggered_command=command, base_event=event)
+                
+                # TODO account for these
+                thread = threading.Thread(target=self.plugin_manager.launch, args=(command_hook, command_event))
+                thread.start()
+                #self.plugin_manager.launch(command_hook, command_event)
+                
+    def on_periodic(self):
+        for name, plugin in self.plugin_manager.plugins.items():
+            for periodic in plugin.periodic:
+                if time.time() - periodic.last_time > periodic.interval:
+                    periodic.last_time = time.time()
+                    event = Event(bot=self, hook=periodic)
+                    
+                    # TODO account for these
+                    thread = threading.Thread(target=self.plugin_manager.launch, args=(periodic, event))
+                    thread.start()
+                    #self.plugin_manager.launch(periodic, event)
