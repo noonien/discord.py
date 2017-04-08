@@ -55,7 +55,7 @@ def format_event(event):
     hour, minute, second = time.strftime("%H,%M,%S").split(',')
 
     args = {
-        "server": event.conn.name, "target": event.target, "channel": event.chan, "nick": event.nick,
+        "server": event.conn.name, "target": event.target, "channel": event.chan, "nick": event.nick + "/" + event.nick_id,
         "user": event.user, "host": event.host,
         "hour": hour,
         "minute": minute,
