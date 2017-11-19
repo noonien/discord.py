@@ -82,7 +82,7 @@ def do_it(thread):
     sub = thread.subreddit.display_name
     prefix = 'Self post:' if thread.is_self else 'Link post:'
     message = '%s "%s" posted in /r/%s by %s. %s%s' % (
-        prefix,
+        color(prefix, GREEN),
         thread.title,
         sub,
         thread.author,
