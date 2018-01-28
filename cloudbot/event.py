@@ -152,7 +152,7 @@ class Event:
             # we're running a coroutine hook with a db, so initialise an executor pool
             self.db_executor = concurrent.futures.ThreadPoolExecutor(1)
             # be sure to initialize the db in the database executor, so it will be accessible in that thread.
-            self.db = None#self.bot.db_session
+            self.db = self.bot.db_session
 
     def prepare_threaded(self):
         """
@@ -284,11 +284,33 @@ class Event:
         :type permission: str
         :rtype: bool
         """
-        #if not self.mask:
-        #    raise ValueError("has_permission requires mask is not assigned")
-        #return self.conn.permissions.has_perm_mask(self.mask, permission, notice=notice)
-        return True
+        if not self.mask:
+            raise ValueError("has_permission requires mask is not assigned")
+        return self.conn.permissions.has_perm_mask(self.mask, permission, notice=notice)
 
+    def check_permission(self, permission, notice=True):
+        """ returns whether or not the current user has a given permission
+        :type permission: str
+        :type notice: bool
+        :rtype: bool
+        """
+        if self.has_permission(permission, notice=notice):
+            return True
+
+        for perm_hook in self.bot.plugin_manager.perm_hooks[permission]:
+            # noinspection PyTupleAssignmentBalance
+            ok, res = yield from self.bot.plugin_manager.internal_launch(perm_hook, self)
+            if ok and res:
+                return True
+
+        return False
+
+    def check_permissions(self, *perms, notice=True):
+        for perm in perms:
+            if (yield from self.check_permission(perm, notice=notice)):
+                return True
+
+        return False
 class CommandEvent(Event):
     """
     :type hook: cloudbot.plugin.CommandHook

@@ -11,7 +11,7 @@ import time
 import sqlalchemy
 
 from cloudbot.event import Event
-#from cloudbot.util import database
+from cloudbot.util import database
 
 logger = logging.getLogger("cloudbot")
 logger.setLevel(logging.DEBUG)
@@ -118,7 +118,7 @@ class PluginManager:
         path_list = glob.iglob(os.path.join(plugin_dir, '*.py'))
         # Load plugins asynchronously :O
         for path in path_list:
-            self.load_plugin(path) 
+            self.load_plugin(path)
 
     def load_plugin(self, path):
         """
@@ -135,7 +135,7 @@ class PluginManager:
 
 #         if "plugin_loading" in self.bot.config:
 #             pl = self.bot.config.get("plugin_loading")
-# 
+#
 #             if pl.get("use_whitelist", False):
 #                 if title not in pl.get("whitelist", []):
 #                     logger.info('Not loading plugin module "{}": plugin not whitelisted'.format(file_name))
@@ -165,20 +165,21 @@ class PluginManager:
         # proceed to register hooks
 
         # create database tables
-        #plugin.create_tables(self.bot)
+        plugin.create_tables(self.bot)
 
         # run on_start hooks
         for on_start_hook in plugin.run_on_start:
+            print(file_name)
             success = self.launch(on_start_hook, Event(bot=self.bot, hook=on_start_hook))
             if not success:
                 logger.warning("Not registering hooks from plugin {}: on_start hook errored".format(plugin.title))
- 
+
                 # unregister databases
                 plugin.unregister_tables(self.bot)
                 return
- 
+
         self.plugins[plugin.file_name] = plugin
- 
+
         for periodic_hook in plugin.periodic:
             #self._start_periodic(periodic_hook)
             self._log_hook(periodic_hook)
@@ -302,7 +303,7 @@ class PluginManager:
         #if self.bot.config.get("logging", {}).get("show_plugin_loading", True):
         logger.info("Loaded {}".format(hook))
         logger.debug("Loaded {}".format(repr(hook)))
-        
+
     def _prepare_parameters(self, hook, event):
         """
         Prepares arguments for the given hook
@@ -366,7 +367,6 @@ class PluginManager:
         :rtype: bool
         """
         out = self._execute_hook_sync(hook, event)
-
         if out is not None:
             if isinstance(out, (list, tuple)):
                 # if there are multiple items in the response, return them on multiple lines
@@ -454,7 +454,6 @@ class Plugin:
         # plugin is reloaded
         self.tables = find_tables(code)
 
-    @asyncio.coroutine
     def create_tables(self, bot):
         """
         Creates all sqlalchemy Tables that are registered in this plugin
@@ -462,13 +461,14 @@ class Plugin:
         :type bot: cloudbot.bot.CloudBot
         """
         if self.tables:
+            print("Creating + " + str(self.tables))
             # if there are any tables
 
             logger.info("Registering tables for {}".format(self.title))
 
             for table in self.tables:
-                if not (yield from bot.loop.run_in_executor(None, table.exists, bot.db_engine)):
-                    yield from bot.loop.run_in_executor(None, table.create, bot.db_engine)
+                if not (table.exists(bot.db_engine)):
+                    table.create(bot.db_engine)
 
     def unregister_tables(self, bot):
         """
