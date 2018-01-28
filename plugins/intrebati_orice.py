@@ -5,17 +5,14 @@ from datetime import datetime
 
 USER_AGENT = ""
 LAST_CHECK = 0
-reddit_inst = None
 
 @hook.on_start()
 def init(db):
     global USER_AGENT
     global LAST_CHECK
-    global reddit_inst
 
     USER_AGENT = "/r/Romania scraper by /u/programatorulupeste"
     LAST_CHECK = (datetime.utcnow() - datetime(1970, 1, 1)).total_seconds()
-    reddit_inst = praw.Reddit(USER_AGENT)
 
 def split_list(text, max_len):
     ret = []
@@ -38,20 +35,20 @@ def split_list(text, max_len):
     return ret
 
 def wrap_message(comm):
-    msg = "Intrebare noua de la %s: %s -> %s" % (comm.author.name, comm.body, (comm.submission.short_link).replace("http://redd.it", "http://ssl.reddit.com"))
+    msg = "Intrebare noua de la %s: %s -> %s" % (comm.author.name, comm.body, (comm.submission.shortlink).replace("http://redd.it", "http://ssl.reddit.com"))
     return split_list(msg, 400)
 
-@hook.periodic(30, initial_interval = 30)
+@hook.periodic(10, initial_interval = 10)
 def checker(bot):
     global USER_AGENT
     global LAST_CHECK
-    global reddit_inst
 
     for conn in bot.connections:
         try:
-            subreddit = reddit_inst.get_subreddit('romania')
+            r = praw.Reddit("irc_bot", user_agent=USER_AGENT)
+            subreddit = r.subreddit('romania')
 
-            submission = subreddit.get_hot(limit = 2)
+            submission = subreddit.hot(limit = 2)
 
             for x in submission:
                 if x.stickied == True and "/r/Romania Orice" in x.title:
@@ -65,7 +62,7 @@ def checker(bot):
 
                             msg = list(wrap_message(c))
                             for i in msg:
-                                bot.connections[conn].message("#roddit-announcer", i)
+                                bot.connections[conn].message("#reddit", i)
                             return
         except BaseException as e:
             print(str(e))

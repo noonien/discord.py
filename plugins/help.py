@@ -9,7 +9,7 @@ from cloudbot.util import formatting, web
 
 @asyncio.coroutine
 @hook.command("help", autohelp=False)
-def help_command(text, chan, conn, bot, notice, message, has_permission):
+def help_command(text, chan, conn, bot, notice, message):
     """[command] - gives help for [command], or lists all available commands if no command is specified
     :type text: str
     :type conn: cloudbot.client.Client
@@ -48,9 +48,10 @@ def help_command(text, chan, conn, bot, notice, message, has_permission):
                 # check permissions
                 allowed = False
                 for perm in plugin.permissions:
-                    if has_permission(perm, notice=False):
-                        allowed = True
-                        break
+                    pass
+                    #if has_permission(perm, notice=False):
+                        #allowed = True
+                        #break
 
                 if not allowed:
                     # skip adding this command
@@ -74,7 +75,7 @@ def help_command(text, chan, conn, bot, notice, message, has_permission):
         notice("For detailed help, use {}help <command>, without the brackets.".format(conn.config["command_prefix"]))
 
 @hook.command(permissions=["botcontrol"], autohelp=False)
-def generatehelp(conn, bot, notice, has_permission):
+def generatehelp(conn, bot, notice):
     """Dumps a list of commands with their help text to the docs directory formatted using markdown."""
     message = "{} Command list\n".format(conn.nick)
     message += "------\n"

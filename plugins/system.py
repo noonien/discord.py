@@ -15,7 +15,7 @@ import cloudbot
 
 @hook.command(autohelp=False)
 def about(text, conn):
-    return "{} is powered by a bear on an unicycle".format(conn.nick)
+    return "{} is powered by https://github.com/gc-plp/discord.py".format(conn.nick)
 
 
 @hook.command(autohelp=False)

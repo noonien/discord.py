@@ -3,6 +3,10 @@ import asyncio
 import praw
 import calendar, datetime
 import re
+from sqlalchemy import Table, Column, String, PrimaryKeyConstraint, DateTime
+from sqlalchemy.sql import select
+from cloudbot.util import database
+
 
 BOLD = '\x02'
 COLOR = '\x03'
@@ -30,32 +34,32 @@ WHITE = '16'
 tstamps = {}
 reddit_inst = None
 watching = True
+g_db = None
 
-subs_list = [
-    'romania',
-    'rogonewild',
-    'rocringe',
-    'rocirclejerk',
-    'prsh',
-    'roaww',
-    'askro',
-    'romania_ss',
-    'rolistentothis',
-    'romanialibera'
-]
+subs = Table(
+        'wsubs',
+        database.metadata,
+        Column('sub', String),
+        Column('timestamp', DateTime)
+        )
+
+def set_crt_timestamps():
+    global tstamps
+
+    crt_utc = datetime.datetime.utcnow()
+
+    g_db.execute(subs.update(values={subs.c.timestamp: crt_utc}))
+    g_db.commit()
 
 @hook.on_start()
 def init(db):
-    #TODO db
-    global tstamps
     global reddit_inst
+    global g_db
 
-    reddit_inst = praw.Reddit('IRC subreddit watcher by /u/programatorulupeste')
+    g_db = db
+    reddit_inst = praw.Reddit("irc_bot", user_agent='IRC subreddit watcher by /u/programatorulupeste')
 
-    crt_utc = calendar.timegm(datetime.datetime.utcnow().utctimetuple())
-
-    for sub in subs_list:
-        tstamps[sub] = crt_utc
+    set_crt_timestamps()
 
 def remove(text):
     return re.sub('(\x02|\x1F|\x16|\x0F|(\x03(\d+(,\d+)?)?)?)', '', text)
@@ -81,57 +85,73 @@ def underline(text):
 def do_it(thread):
     sub = thread.subreddit.display_name
     prefix = 'Self post:' if thread.is_self else 'Link post:'
-    message = '%s "%s" posted in /r/%s by %s. %s%s' % (
-        color(prefix, GREEN),
+    message = '"%s" posted in /r/%s by %s. %s' % (
         thread.title,
         sub,
         thread.author,
-        (thread.short_link).replace("http://redd.it", "http://ssl.reddit.com"),
-        #'' if thread.is_self else (' [ %s ]' % thread.url),
-        color(' NSFW', RED) if thread.over_18 else ''
+        (thread.shortlink).replace("http://redd.it", "http://ssl.reddit.com")
     )
 
-    return message
+    return prefix + " " + message
 
-@hook.periodic(30, initial_interval = 30)
+@hook.periodic(60, initial_interval = 60)
 def checker(bot):
     global watching
-    global tstamps
     global reddit_inst
 
     if not watching:
         print("watching disabled")
         return
 
+    db_subs = g_db.execute(subs.select())
+    tstamps = {}
+    for row in db_subs:
+        tstamps[row['sub']] = row['timestamp']
     print("Checking")
     for conn in bot.connections:
-        for csub, tstmp in tstamps.items():
+        for csub in tstamps:
+            try:
+                subreddit = reddit_inst.subreddit(csub)
+                newest = tstamps[csub]
+                for submission in subreddit.new():
+                    subtime = datetime.datetime.utcfromtimestamp(submission.created_utc)
+                    if subtime > tstamps[csub]:
+                        if subtime > newest:
+                            newest = subtime
+                        bot.connections[conn].message("#reddit", do_it(submission))
 
-            subreddit = reddit_inst.get_subreddit(csub)
-            newest = tstamps[csub]
-            for submission in subreddit.get_new(limit=10):
-
-                #print(csub, submission, submission.created_utc, tstamps[csub])
-                if int(submission.created_utc) > tstamps[csub]:
-                    #print(submission.created_utc, tstamps[csub])
-
-                    if int(submission.created_utc) > newest:
-                        newest = int(submission.created_utc)
-                    bot.connections[conn].message("#roddit-announcer", do_it(submission))
-
-            tstamps[csub] = newest
+                g_db.execute(subs.update().where(subs.c.sub == csub).values(timestamp=newest))
+                g_db.commit()
+            except BaseException as e:
+                print(str(e))
+                print("Exception generated for sub: " + csub)
+    print("Done.")
 
 @hook.command("swlist")
 def list_logs(text):
     msg = 'Watching: '
-    for i in subs_list:
-        msg += i + ' '
+    db_subs = g_db.execute(subs.select())
+    for i in db_subs:
+        msg += i['sub'] + ' '
     return msg
+
+@hook.command("swadd")
+def swadd(text):
+    text = text.split()[0]
+    g_db.execute(subs.insert().values(sub=text, timestamp=datetime.datetime.now()))
+    g_db.commit()
+
+@hook.command("swdel")
+def swdel(text):
+    text = text.split()[0]
+    g_db.execute(subs.delete(subs.c.sub == text))
+    g_db.commit()
 
 @hook.command("startwatch", permissions=["permissions_users"])
 def start_watch():
     global watching
     watching = True
+    set_crt_timestamps()
     return "Started watching"
 
 @hook.command("stopwatch", permissions=["permissions_users"])
