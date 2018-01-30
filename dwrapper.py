@@ -25,7 +25,6 @@ class DiscordWrapper():
         self.plugin_manager = PluginManager(self)
 
         self.connections = {}
-        pdb.set_trace()
         self.to_send = []
         self.name = "roddit"
         self.data_dir = "data"
@@ -50,6 +49,7 @@ class DiscordWrapper():
         database.base = self.db_base
 
         self.plugin_manager.load_all(os.path.abspath("plugins"))
+        self.plugin_manager.load_all(os.path.abspath("post-plugins"))
 
     def __getattr__(self, name):
         msg = "'{}' object has no attribute '{}'"
@@ -60,6 +60,11 @@ class DiscordWrapper():
 
     def message(self, target, message):
         print("send (%s) %s" % (target, message))
+        if len(message) > 400:
+            i = 0
+            while len(message) > 400:
+                self.to_send.append((target, message[i:i + 400]))
+                message = message[i + 400:]
         self.to_send.append((target, message))
 
     def notice(self, target, text):
@@ -99,6 +104,20 @@ class DiscordWrapper():
         if cmd_match:
             command = cmd_match.group(1).lower()
             if command in self.plugin_manager.commands:
+
+                # This should never fail - all commands are registered
+                cmd_desc = self.dcommands[command]
+                if len(cmd_desc['owner']) > 0 and message.author.id not in cmd_desc['owner']:
+                    self.message(message.channel.name, "You don't own %s" % command)
+                    return
+                if len(cmd_desc['groups']) > 0:
+                    allowed_chans = []
+                    for group in cmd_desc['groups']:
+                        allowed_chans.extend(self.dgroups[group]["channels"])
+                    if message.channel.id not in allowed_chans:
+                        self.message(message.channel.name, "%s can only be used in: %s" % (command, " ".join(["<#%s>" % chan for chan in allowed_chans])))
+                        return
+
                 command_hook = self.plugin_manager.commands[command]
                 command_event = CommandEvent(hook=command_hook, text=cmd_match.group(2).strip(),
                                          triggered_command=command, base_event=event)

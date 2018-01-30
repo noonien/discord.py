@@ -149,7 +149,7 @@ class PluginManager:
         if file_name in self.plugins:
             self.unload_plugin(file_path)
 
-        module_name = "plugins.{}".format(title)
+        module_name = "%s.%s" % (os.path.basename(os.path.dirname(path)), title)
         try:
             plugin_module = importlib.import_module(module_name)
             # if this plugin was loaded before, reload it
