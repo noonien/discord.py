@@ -10,7 +10,7 @@ from sqlalchemy.sql import select
 from cloudbot.util import database
 
 USER_AGENT = "Image fetcher for Snoonet:#Romania by /u/programatorulupeste"
-domains = ['imgur.com', 'gfycat.com', 'redditmedia.com']
+domains = ['imgur.com', 'gfycat.com', 'redditmedia.com', 'i.redd.it', "flic.kr", "500px.com"]
 
 g_db = None
 
@@ -72,12 +72,11 @@ def get_links_from_subs(sub):
             sub_list[el] = datetime.min
             g_db.commit()
 
-        if el in sub_list:
-            # Cache older than 2 hours?
-            if (now - sub_list[el]).total_seconds() > 7200:
-                refresh_cache(r, el)
-            else:
-                print("Cache for %s is %i" %(el, (now - sub_list[el]).total_seconds()))
+        # Cache older than 2 hours?
+        if (now - sub_list[el]).total_seconds() > 7200:
+            refresh_cache(r, el)
+        else:
+            print("Cache for %s is %i" %(el, (now - sub_list[el]).total_seconds()))
 
         db_links = g_db.execute(select([links.c.link]).where(links.c.subreddit == el))
 
@@ -116,7 +115,7 @@ def init(db):
 
         startpos += len(start)
 
-@hook.periodic(300, initial_interval=30)
+@hook.periodic(300, initial_interval=300)
 def refresh_porn():
     print("Refreshing...")
     db_subs = g_db.execute(select([subs.c.subreddit]))
@@ -225,3 +224,19 @@ def lesbiene():
     data = get_links_from_subs(['dykesgonewild', 'dyke'])
 
     return random.choice(data) + " NSFW!"
+
+@hook.command()
+def thicc():
+    data = get_links_from_subs(['pawg', 'thick'])
+
+    return random.choice(data) + " NSFW!"
+
+@hook.command()
+def fetch_image(text):
+    if text:
+        text = text.split()
+        data = get_links_from_subs(text)
+
+        return random.choice(data)
+    else:
+        return "Please specify a sub or a list of subs (e.g.: .fetch_image RomaniaPorn or .fetch_image RomaniaPorn RoGoneWild)"
