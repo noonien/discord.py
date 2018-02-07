@@ -10,7 +10,7 @@ from sqlalchemy.sql import select
 from cloudbot.util import database
 
 USER_AGENT = "Image fetcher for Snoonet:#Romania by /u/programatorulupeste"
-domains = ['imgur.com', 'gfycat.com', 'redditmedia.com', 'i.redd.it', "flic.kr", "500px.com"]
+domains = ['imgur.com', 'gfycat.com', 'redditmedia.com', 'i.redd.it', 'flic.kr', '500px.com']
 
 g_db = None
 
@@ -55,6 +55,12 @@ def refresh_cache(r, el):
 
     g_db.commit()
 
+
+def del_sub(sub):
+    print("Removing sub %s" % sub)
+    g_db.execute(subs.delete().where(subs.c.subreddit == sub))
+    g_db.commit()
+
 def get_links_from_subs(sub):
     data = []
     r = praw.Reddit("irc_bot", user_agent=USER_AGENT)
@@ -74,7 +80,12 @@ def get_links_from_subs(sub):
 
         # Cache older than 2 hours?
         if (now - sub_list[el]).total_seconds() > 7200:
-            refresh_cache(r, el)
+            try:
+                refresh_cache(r, el)
+            except e as Exception:
+                print(e)
+                del_sub(el)
+                data = ["Error :/"]
         else:
             print("Cache for %s is %i" %(el, (now - sub_list[el]).total_seconds()))
 
@@ -82,6 +93,11 @@ def get_links_from_subs(sub):
 
         for row in db_links:
             data.extend(row)
+
+        if len(data) == 0:
+            data = ["Got nothing. Will try harder next time."]
+            for el in sub:
+                del_sub(el)
     return data
 
 @asyncio.coroutine
