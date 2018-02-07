@@ -12,6 +12,8 @@ from cloudbot.util import database
 USER_AGENT = "Image fetcher for Snoonet:#Romania by /u/programatorulupeste"
 domains = ['imgur.com', 'gfycat.com', 'redditmedia.com', 'i.redd.it', 'flic.kr', '500px.com']
 
+dont_cache = ['random', 'randnsfw']
+
 g_db = None
 
 links = Table(
@@ -28,13 +30,9 @@ subs = Table(
     Column('cachetime', DateTime)
 )
 
-def refresh_cache(r, el):
-    print("Refreshing cache for " + el)
-    subreddit = r.subreddit(el)
+def get_links_from_sub(r, sub):
 
-    delete = links.delete(links.c.subreddit == el)
-    g_db.execute(delete)
-    g_db.commit()
+    subreddit = r.subreddit(sub)
 
     new_links = []
     for submission in subreddit.top("month"):
@@ -43,6 +41,16 @@ def refresh_cache(r, el):
                 if domain in submission.url:
                     new_links.append(submission.url)
                     break
+
+    return new_links
+
+def refresh_cache(r, el):
+    print("Refreshing cache for " + el)
+    delete = links.delete(links.c.subreddit == el)
+    g_db.execute(delete)
+    g_db.commit()
+
+    new_links =  get_links_from_sub(r, el)
 
     last_fetch = datetime.utcnow()
 
@@ -73,6 +81,11 @@ def get_links_from_subs(sub):
         sub_list[row['subreddit']] = row['cachetime']
 
     for el in sub:
+        if el in dont_cache:
+            print("%s is in no cache list" % el)
+            data = get_links_from_sub(r, el)
+            continue
+
         if el not in sub_list:
             g_db.execute(subs.insert().values(subreddit=el, cachetime=datetime.min))
             sub_list[el] = datetime.min
@@ -82,10 +95,10 @@ def get_links_from_subs(sub):
         if (now - sub_list[el]).total_seconds() > 7200:
             try:
                 refresh_cache(r, el)
-            except e as Exception:
+            except Exception as e:
                 print(e)
                 del_sub(el)
-                data = ["Error :/"]
+                return ["Error :/"]
         else:
             print("Cache for %s is %i" %(el, (now - sub_list[el]).total_seconds()))
 
