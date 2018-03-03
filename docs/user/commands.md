@@ -3,8 +3,8 @@ gonzoboashe Command list
 ## [circulaba commands](#circulaba)
 ## [porn commands](#porn)
 ## [subwatch commands](#subwatch)
-## [Unrestricted commands](#unrestricted-commands)
-## [Special commands](#special-commands)
+## [Unrestricted commands](#unrestricted-commands-1)
+## [Special commands](#special-commands-1)
 
 
 ### circulaba
@@ -148,6 +148,8 @@ gonzoboashe Command list
 
 **derpify**: &lt;text&gt; - returns some amusing responses from your input.
 
+**dex**: Command has no documentation.
+
 **dice**: &lt;dice roll&gt; - simulates dice rolls. Example: 'dice 2d20-d5+4 roll 2': D20s, subtract 1D5, add 4
 
 **discuvver**: Command has no documentation.
@@ -228,6 +230,8 @@ gonzoboashe Command list
 
 **fw**: &lt;string&gt; -- Converts &lt;string&gt; to full width characters.
 
+**g**: &lt;query&gt; - Uses the dogpile search engine to find shit on the web.
+
 **gbooks**: &lt;query&gt; - Searches Google Books for &lt;query&gt;.
 
 **gfy**: &lt;phrase&gt; - gets a lmgtfy.com link for the specified phrase
@@ -239,6 +243,8 @@ gonzoboashe Command list
 **gift**: &lt;user&gt; - gives gift to &lt;user&gt;
 
 **giphy**: &lt;query&gt; - Searches giphy.com for a gif using the provided search term.
+
+**gis**: &lt;query&gt; - Uses the dogpile search engine to search for images.
 
 **gitio**: &lt;url&gt; &lt;custom&gt; - shortens a github URL &lt;url&gt; using git.io with &lt;custom&gt; as an optional custom shortlink,
 
@@ -468,8 +474,6 @@ gonzoboashe Command list
 
 **stophunt**: - This command stops the duck hunt in your channel. Scores will be preserved
 
-**stopwatch**: Command has no documentation.
-
 **strax**: Strax quote.
 
 **suggest**: &lt;phrase&gt; - Gets suggested phrases for a google search
@@ -552,6 +556,8 @@ gonzoboashe Command list
 
 **yomomma**: &lt;nick&gt; - tells a yo momma joke to &lt;nick&gt;
 
+**youtube**: &lt;query&gt; - Returns the first YouTube search result for &lt;query&gt;.
+
 ### porn
 
 ------
@@ -568,6 +574,12 @@ gonzoboashe Command list
 **fetch_image**: Command has no documentation.
 
 **fetish**: Command has no documentation.
+
+**gis**: &lt;query&gt; - Uses the dogpile search engine to search for images.
+
+**hct**: Command has no documentation.
+
+**help**: &lt;command&gt; - gives help for &lt;command&gt;, or lists all available commands if no command is specified
 
 **lesbiene**: Command has no documentation.
 
@@ -615,6 +627,8 @@ gonzoboashe Command list
 **genhelp**: Command has no documentation.
 
 **restrict_cmd_to_group**: &lt;command, group&gt; - restricts 'command' to be used in channels defined by 'group'
+
+**stopwatch**: Command has no documentation.
 
 **swadd**: Command has no documentation.
 
