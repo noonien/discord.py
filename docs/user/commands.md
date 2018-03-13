@@ -263,8 +263,6 @@ gonzoboashe Command list
 
 **headdesk**: &lt;nick&gt; - Hit your head against the desk becausae of &lt;nick&gt;. Code located in reactions.py
 
-**help**: &lt;command&gt; - gives help for &lt;command&gt;, or lists all available commands if no command is specified
-
 **hunt_opt_out**: &lt;{add &lt;chan&gt;|remove &lt;chan&gt;|list}&gt; - Running this command without any arguments displays the status of the current channel. hunt_opt_out add #channel will disable all duck hunt commands in the specified channel. hunt_opt_out remove #channel will re-enable the game for the specified channel.
 
 **iazo**: Command has no documentation.
@@ -571,8 +569,6 @@ gonzoboashe Command list
 
 **hct**: Command has no documentation.
 
-**help**: &lt;command&gt; - gives help for &lt;command&gt;, or lists all available commands if no command is specified
-
 **lesbiene**: Command has no documentation.
 
 **milf**: Command has no documentation.
@@ -629,6 +625,8 @@ gonzoboashe Command list
 **del_user_group**: &lt;group&gt; - Deletes a user group
 
 **genhelp**: Command has no documentation.
+
+**help**: &lt;command&gt; - gives help for &lt;command&gt;, or lists all available commands if no command is specified
 
 **list_blacklisted_users**: Lists the blacklisted users
 
