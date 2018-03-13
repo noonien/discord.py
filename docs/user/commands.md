@@ -600,9 +600,9 @@ gonzoboashe Command list
 ### Special commands
 
 ------
-**add_chan_to_group**: &lt;channel, group&gt; - Add 'channel' to the restriction group 'group'
+**add_chan_group**: &lt;group&gt; - Creates a group of channels
 
-**add_group**: &lt;group&gt; - Creates a group
+**add_chan_to_group**: &lt;channel, group&gt; - Add 'channel' to the restriction group 'group'
 
 **add_owner_group_to_cmd**: &lt;command, owner group&gt; - Adds an owner group for 'command' - only the list owners will be able to use the command
 
@@ -618,7 +618,7 @@ gonzoboashe Command list
 
 **del_chan_from_group**: &lt;channel, group&gt; - Removes 'channel' from the restriction group 'group'
 
-**del_group**: &lt;group&gt; - deletes a group
+**del_chan_group**: &lt;group&gt; - deletes a group of channels
 
 **del_user_from_group**: &lt;user, group&gt; Removes a user from group
 
@@ -630,11 +630,11 @@ gonzoboashe Command list
 
 **list_blacklisted_users**: Lists the blacklisted users
 
+**list_chan_groups**: Lists all groups
+
+**list_chans_in_group**: &lt;group&gt; - Lists the restriction channels for 'group'
+
 **list_cmd_owner**: &lt;command&gt; - List who owns 'command'
-
-**list_group**: &lt;group&gt; - Lists the restriction channels for 'group'
-
-**list_groups**: Lists all groups
 
 **list_owned_commands**: List commands with owners
 
