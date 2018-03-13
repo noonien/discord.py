@@ -1,6 +1,7 @@
 gonzoboashe Command list
 ------
 ## [circulaba commands](#circulaba)
+## [general commands](#general)
 ## [porn commands](#porn)
 ## [subwatch commands](#subwatch)
 ## [Unrestricted commands](#unrestricted-commands-1)
@@ -244,8 +245,6 @@ gonzoboashe Command list
 
 **giphy**: &lt;query&gt; - Searches giphy.com for a gif using the provided search term.
 
-**gis**: &lt;query&gt; - Uses the dogpile search engine to search for images.
-
 **gitio**: &lt;url&gt; &lt;custom&gt; - shortens a github URL &lt;url&gt; using git.io with &lt;custom&gt; as an optional custom shortlink,
 
 **gonzo**: chat with cleverbot.com
@@ -319,18 +318,6 @@ gonzoboashe Command list
 **length**: &lt;string&gt; -- Gets the length of &lt;string&gt;
 
 **lenny**: why the shit not lennyface
-
-**list_cmd_owner**: &lt;command&gt; - List who own 'command'
-
-**list_group**: &lt;group&gt; - Lists the restriction channels for 'group'
-
-**list_groups**: Lists all groups
-
-**list_owned_commands**: List commands with owners
-
-**list_restrictions_by_channel**: Lists all commands, grouped by restricted channel
-
-**list_restrictions_for_cmd**: &lt;command&gt; - Lists the group restrictions for 'command'
 
 **litecoin**: - Returns the current litecoin value
 
@@ -558,6 +545,11 @@ gonzoboashe Command list
 
 **youtube**: &lt;query&gt; - Returns the first YouTube search result for &lt;query&gt;.
 
+### general
+
+------
+**flenny**: flenny is watching.
+
 ### porn
 
 ------
@@ -614,17 +606,47 @@ gonzoboashe Command list
 ------
 **add_chan_to_group**: &lt;channel, group&gt; - Add 'channel' to the restriction group 'group'
 
-**add_cmd_owner**: &lt;command, owner&gt; - Adds an owner for 'command' - only the list owners will be able to use the command
-
 **add_group**: &lt;group&gt; - Creates a group
 
-**clr_cmd_owner**: &lt;command, owner&gt; - Remove 'owner' from the command owner list
+**add_owner_group_to_cmd**: &lt;command, owner group&gt; - Adds an owner group for 'command' - only the list owners will be able to use the command
+
+**add_user_group**: &lt;group&gt; - Creates a new user group
+
+**add_user_to_group**: &lt;user, group&gt; Adds user to group
+
+**blacklist_user**: &lt;user, type&gt; - blacklists an user for a type of action (available types: bot, pics, emoji)
+
+**clr_owner_group_from_cmd**: &lt;command, owner&gt; - Remove 'owner' from the command owner list
+
+**del_blacklist_user**: Remove an user from blacklist
 
 **del_chan_from_group**: &lt;channel, group&gt; - Removes 'channel' from the restriction group 'group'
 
 **del_group**: &lt;group&gt; - deletes a group
 
+**del_user_from_group**: &lt;user, group&gt; Removes a user from group
+
+**del_user_group**: &lt;group&gt; - Deletes a user group
+
 **genhelp**: Command has no documentation.
+
+**list_blacklisted_users**: Lists the blacklisted users
+
+**list_cmd_owner**: &lt;command&gt; - List who owns 'command'
+
+**list_group**: &lt;group&gt; - Lists the restriction channels for 'group'
+
+**list_groups**: Lists all groups
+
+**list_owned_commands**: List commands with owners
+
+**list_restrictions_by_channel**: Lists all commands, grouped by restricted channel
+
+**list_restrictions_for_cmd**: &lt;command&gt; - Lists the group restrictions for 'command'
+
+**list_user_groups**: Lists the user groups
+
+**list_users_in_group**: &lt;group&gt; - Lists the users of a group
 
 **restrict_cmd_to_group**: &lt;command, group&gt; - restricts 'command' to be used in channels defined by 'group'
 
