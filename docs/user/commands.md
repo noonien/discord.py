@@ -546,7 +546,19 @@ gonzoboashe Command list
 ### general
 
 ------
+**dex**: Command has no documentation.
+
 **flenny**: flenny is watching.
+
+**lenny**: why the shit not lennyface
+
+**shrug**: - shrugs
+
+**urban**: urban &lt;phrase&gt; &lt;id&gt; -- Looks up &lt;phrase&gt; on urbandictionary.com.
+
+**we**: &lt;location&gt; - Gets weather data for &lt;location&gt;.
+
+**weather**: &lt;location&gt; - Gets weather data for &lt;location&gt;.
 
 ### porn
 
@@ -565,9 +577,9 @@ gonzoboashe Command list
 
 **fetish**: Command has no documentation.
 
-**gis**: &lt;query&gt; - Uses the dogpile search engine to search for images.
+**force_refresh_porn**: Command has no documentation.
 
-**hct**: Command has no documentation.
+**gis**: &lt;query&gt; - Uses the dogpile search engine to search for images.
 
 **lesbiene**: Command has no documentation.
 
@@ -589,14 +601,24 @@ gonzoboashe Command list
 
 **tzatze**: Command has no documentation.
 
+**youtube**: &lt;query&gt; - Returns the first YouTube search result for &lt;query&gt;.
+
 ### subwatch
 
 ------
+**startwatch**: Command has no documentation.
+
 **swlist**: Command has no documentation.
 
 ### Unrestricted commands
 
 ------
+**gamer**: Command has no documentation.
+
+**help**: &lt;command&gt; - gives help for &lt;command&gt;, or lists all available commands if no command is specified
+
+**jailbait**: Command has no documentation.
+
 ### Special commands
 
 ------
@@ -606,6 +628,8 @@ gonzoboashe Command list
 
 **add_owner_group_to_cmd**: &lt;command, owner group&gt; - Adds an owner group for 'command' - only the list owners will be able to use the command
 
+**add_permarole**: &lt;user, type&gt; - Add a permanent role to a user
+
 **add_user_group**: &lt;group&gt; - Creates a new user group
 
 **add_user_to_group**: &lt;user, group&gt; Adds user to group
@@ -614,19 +638,19 @@ gonzoboashe Command list
 
 **clr_owner_group_from_cmd**: &lt;command, owner&gt; - Remove 'owner' from the command owner list
 
-**del_blacklist_user**: Remove an user from blacklist
+**del_blacklist_user**: Remove a user from blacklist
 
 **del_chan_from_group**: &lt;channel, group&gt; - Removes 'channel' from the restriction group 'group'
 
 **del_chan_group**: &lt;group&gt; - deletes a group of channels
+
+**del_permarole**: &lt;user, type&gt; - Removes a permanent role from a user
 
 **del_user_from_group**: &lt;user, group&gt; Removes a user from group
 
 **del_user_group**: &lt;group&gt; - Deletes a user group
 
 **genhelp**: Command has no documentation.
-
-**help**: &lt;command&gt; - gives help for &lt;command&gt;, or lists all available commands if no command is specified
 
 **list_blacklisted_users**: Lists the blacklisted users
 
@@ -637,6 +661,8 @@ gonzoboashe Command list
 **list_cmd_owner**: &lt;command&gt; - List who owns 'command'
 
 **list_owned_commands**: List commands with owners
+
+**list_permaroles**: Lists the assigned permaroles
 
 **list_restrictions_by_channel**: Lists all commands, grouped by restricted channel
 
