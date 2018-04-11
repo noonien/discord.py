@@ -287,6 +287,8 @@ gonzoboashe Command list
 
 **jackmeoff**: &lt;user&gt; - flirts with &lt;user&gt;
 
+**jailbait**: Command has no documentation.
+
 **jupi**: Command has no documentation.
 
 **kebab**: &lt;user&gt; - gives a kebab to &lt;user&gt;
@@ -616,8 +618,6 @@ gonzoboashe Command list
 **gamer**: Command has no documentation.
 
 **help**: &lt;command&gt; - gives help for &lt;command&gt;, or lists all available commands if no command is specified
-
-**jailbait**: Command has no documentation.
 
 ### Special commands
 
