@@ -10,6 +10,7 @@ import asyncio
 import pdb
 from plugin import PluginManager
 from cloudbot.event import Event, CommandEvent, EventType
+from cloudbot.reloader import PluginReloader
 
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
@@ -22,13 +23,18 @@ from cloudbot.util import database
 class DiscordWrapper():
     def __init__(self, discord_client):
         self.discord_client = discord_client
+        self.reloader = PluginReloader(self)
         self.plugin_manager = PluginManager(self)
 
         self.connections = {}
         self.to_send = []
+        self.to_delete = []
+        self.to_add_role = []
+        self.to_rem_role = []
         self.name = "roddit"
         self.data_dir = "data"
         self.logger = logging.getLogger("cloudbot")
+        self.user_agent = "Python bot"
 
         self.connections[self.name] = self
         self.ready = True
@@ -51,6 +57,8 @@ class DiscordWrapper():
         self.plugin_manager.load_all(os.path.abspath("plugins"))
         self.plugin_manager.load_all(os.path.abspath("post-plugins"))
 
+        self.reloader.start([os.path.abspath("plugins"), os.path.abspath("post-plugins")])
+
     def __getattr__(self, name):
         msg = "'{}' object has no attribute '{}'"
         raise AttributeError(msg.format(self.__class__, name))
@@ -60,11 +68,11 @@ class DiscordWrapper():
 
     def message(self, target, message):
         print("send (%s) %s" % (target, message))
-        if len(message) > 400:
+        if len(message) > 2000:
             i = 0
-            while len(message) > 400:
-                self.to_send.append((target, message[i:i + 400]))
-                message = message[i + 400:]
+            while len(message) > 2000:
+                self.to_send.append((target, message[i:i + 2000]))
+                message = message[i + 2000:]
         self.to_send.append((target, message))
 
     def notice(self, target, text):
@@ -89,6 +97,8 @@ class DiscordWrapper():
         event.author = message.author
         event.conn = self
         event.nick = message.author.name #TODO .mention on mentions
+        event.server = message.server
+        event.dmsg = message
         self.nick = self.discord_client.user.name
 
         # Raw IRC hook
@@ -98,6 +108,10 @@ class DiscordWrapper():
             for raw_hook in self.plugin_manager.raw_triggers[event.irc_command]:
                 self.plugin_manager.launch(raw_hook, Event(hook=raw_hook, base_event=event))
 
+        # Event hooks
+        if event.type in self.plugin_manager.event_type_hooks:
+            for event_hook in self.plugin_manager.event_type_hooks[event.type]:
+                self.plugin_manager.launch(event_hook, Event(hook=raw_hook, base_event=event))
 
         command_re = r'(?i)^(?:[{}]|{}[,;:]+\s+)(\w+)(?:$|\s+)(.*)'.format(self.config["command_prefix"], event.nick)
         cmd_match = re.match(command_re, event.content)
@@ -105,18 +119,32 @@ class DiscordWrapper():
             command = cmd_match.group(1).lower()
             if command in self.plugin_manager.commands:
 
+                if message.author.id in self.dblacklist and "bot" in self.dblacklist[message.author.id]["type"]:
+                    return
+
                 # This should never fail - all commands are registered
                 cmd_desc = self.dcommands[command]
-                if len(cmd_desc['owner']) > 0 and message.author.id not in cmd_desc['owner']:
-                    self.message(message.channel.name, "You don't own %s" % command)
-                    return
-                if len(cmd_desc['groups']) > 0:
+                if 'owner' in cmd_desc and len(cmd_desc['owner']) > 0:
+                    owners = []
+                    for grp in cmd_desc['owner']:
+                        owners.extend(self.dugroups[grp]["users"])
+
+                    if message.author.id not in owners:
+                        self.message(message.channel.name, "You don't own %s" % command)
+                        return
+
+                if 'groups' in cmd_desc and len(cmd_desc['groups']) > 0:
                     allowed_chans = []
                     for group in cmd_desc['groups']:
                         allowed_chans.extend(self.dgroups[group]["channels"])
                     if message.channel.id not in allowed_chans:
-                        self.message(message.channel.name, "%s can only be used in: %s" % (command, " ".join(["<#%s>" % chan for chan in allowed_chans])))
-                        return
+
+                        # Check if author is in special OPS group and that the command is owned by OPS
+                        if message.author.id not in self.dugroups[self.OP_GROUP]["users"] or \
+                                self.OP_GROUP not in cmd_desc['owner']:
+                            self.message(message.channel.name, "%s can only be used in: %s" % \
+                                    (command, " ".join(["<#%s>" % chan for chan in allowed_chans])))
+                            return
 
                 command_hook = self.plugin_manager.commands[command]
                 command_event = CommandEvent(hook=command_hook, text=cmd_match.group(2).strip(),
