@@ -607,8 +607,6 @@ gonzoboashe Command list
 ### Unrestricted commands
 
 ------
-**flushlog**: Command has no documentation.
-
 **gamer**: Command has no documentation.
 
 **help**: &lt;command&gt; - gives help for &lt;command&gt;, or lists all available commands if no command is specified
