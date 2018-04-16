@@ -183,8 +183,6 @@ gonzoboashe Command list
 
 **duckkick**: &lt;enable|disable&gt; - If the bot has OP or half-op in the channel you can specify .duckkick enable|disable so that people are kicked for shooting or befriending a non-existent goose. Default is off.
 
-**duckmerge**: &lt;user1&gt; &lt;user2&gt; - Moves the duck scores from one nick to another nick. Accepts two nicks as input the first will have their duck scores removed the second will have the first score added. Warning this cannot be undone.
-
 **ducks**: &lt;nick&gt; - Prints a users duck stats. If no nick is input it will check the calling username.
 
 **duckstats**: - Prints duck statistics for the entire channel and totals for the network.
@@ -262,8 +260,6 @@ gonzoboashe Command list
 **hd**: &lt;nick&gt; - Hit your head against the desk becausae of &lt;nick&gt;. Code located in reactions.py
 
 **headdesk**: &lt;nick&gt; - Hit your head against the desk becausae of &lt;nick&gt;. Code located in reactions.py
-
-**hunt_opt_out**: &lt;{add &lt;chan&gt;|remove &lt;chan&gt;|list}&gt; - Running this command without any arguments displays the status of the current channel. hunt_opt_out add #channel will disable all duck hunt commands in the specified channel. hunt_opt_out remove #channel will re-enable the game for the specified channel.
 
 **iazo**: Command has no documentation.
 
@@ -380,10 +376,6 @@ gonzoboashe Command list
 **pasta**: &lt;user&gt; - gives pasta to &lt;user&gt;
 
 **pie**: &lt;user&gt; - gives pie to &lt;user&gt;
-
-**pig**: &lt;text&gt; - Converts &lt;text&gt; to pig latin.
-
-**piglatin**: &lt;text&gt; - Converts &lt;text&gt; to pig latin.
 
 **ping**: &lt;host&gt; &lt;count&gt; - pings &lt;host&gt; &lt;count&gt; times
 
@@ -615,6 +607,8 @@ gonzoboashe Command list
 ### Unrestricted commands
 
 ------
+**flushlog**: Command has no documentation.
+
 **gamer**: Command has no documentation.
 
 **help**: &lt;command&gt; - gives help for &lt;command&gt;, or lists all available commands if no command is specified
@@ -622,57 +616,61 @@ gonzoboashe Command list
 ### Special commands
 
 ------
-**add_chan_group**: &lt;group&gt; - Creates a group of channels
+**add_blacklist_user**: &lt;user, type&gt; - Restrict user from using type ('bot', 'pics' or 'emoji')
 
-**add_chan_to_group**: &lt;channel, group&gt; - Add 'channel' to the restriction group 'group'
+**add_chan_to_chgroup**: &lt;channel channel-group&gt; - Add channel to channel group
 
-**add_owner_group_to_cmd**: &lt;command, owner group&gt; - Adds an owner group for 'command' - only the list owners will be able to use the command
+**add_chgroup**: &lt;group name&gt; - Create a group of channels
 
-**add_permarole**: &lt;user, type&gt; - Add a permanent role to a user
+**add_chgroup_to_cmd**: &lt;command channel-group&gt; - Add a channel-group to command
 
-**add_user_group**: &lt;group&gt; - Creates a new user group
+**add_owner_to_cmd**: &lt;command user-group&gt; - Add a user-group to own a command
 
-**add_user_to_group**: &lt;user, group&gt; Adds user to group
+**add_permarole_for_user**: &lt;user, type&gt; - Add permarole ('bulau', 'carcera') to user
 
-**blacklist_user**: &lt;user, type&gt; - blacklists an user for a type of action (available types: bot, pics, emoji)
+**add_user_group**: &lt;group name&gt; - Create a user group
 
-**clr_owner_group_from_cmd**: &lt;command, owner&gt; - Remove 'owner' from the command owner list
+**add_user_to_ugroup**: &lt;user user-group&gt; - Add user to user group
 
-**del_blacklist_user**: Remove a user from blacklist
+**del_blacklist_user**: &lt;user, type&gt; - Remove restriction type for user
 
-**del_chan_from_group**: &lt;channel, group&gt; - Removes 'channel' from the restriction group 'group'
+**del_chan_from_chgroup**: &lt;channel channel-group&gt; - Delete channel from channel group
 
-**del_chan_group**: &lt;group&gt; - deletes a group of channels
+**del_chgroup**: &lt;group name&gt; - Delete a group of channels
 
-**del_permarole**: &lt;user, type&gt; - Removes a permanent role from a user
+**del_chgroup_from_cmd**: &lt;command channel-group&gt; - Delete a user-group from a command's ownership
 
-**del_user_from_group**: &lt;user, group&gt; Removes a user from group
+**del_owners_from_cmd**: &lt;command user-group&gt; - Delete user-group from command ownership list
 
-**del_user_group**: &lt;group&gt; - Deletes a user group
+**del_permarole_user**: &lt;user, type&gt; - Delete permarole type for user
+
+**del_user_from_ugroup**: &lt;user user-group&gt; - Delete user from user group
+
+**del_user_group**: &lt;group name&gt; - Deletes a user group
+
+**duckmerge**: &lt;user1&gt; &lt;user2&gt; - Moves the duck scores from one nick to another nick. Accepts two nicks as input the first will have their duck scores removed the second will have the first score added. Warning this cannot be undone.
 
 **genhelp**: Command has no documentation.
 
-**list_blacklisted_users**: Lists the blacklisted users
+**list_blacklist_for_user**: &lt;user&gt; - List blacklist types for user
 
-**list_chan_groups**: Lists all groups
+**list_blacklisted_users**: List users with any type of blacklist
 
-**list_chans_in_group**: &lt;group&gt; - Lists the restriction channels for 'group'
+**list_chans_in_chgroup**: &lt;channel-group&gt; - List channels in channel-group
 
-**list_cmd_owner**: &lt;command&gt; - List who owns 'command'
+**list_chgroups**: List available groups of channels
 
-**list_owned_commands**: List commands with owners
+**list_chgroups_for_cmd**: &lt;command&gt; - List in what channel-groups command is usable
 
-**list_permaroles**: Lists the assigned permaroles
+**list_owners_for_cmd**: &lt;command&gt; - List what user-groups own a command
 
-**list_restrictions_by_channel**: Lists all commands, grouped by restricted channel
+**list_permaroles_for_user**: &lt;user&gt; - List permarole types for user
 
-**list_restrictions_for_cmd**: &lt;command&gt; - Lists the group restrictions for 'command'
+**list_user_groups**: List user groups
 
-**list_user_groups**: Lists the user groups
+**list_users_in_ugroup**: Command has no documentation.
 
-**list_users_in_group**: &lt;group&gt; - Lists the users of a group
-
-**restrict_cmd_to_group**: &lt;command, group&gt; - restricts 'command' to be used in channels defined by 'group'
+**list_users_with_permaroles**: List users that have permaroles assigned
 
 **stopwatch**: Command has no documentation.
 
@@ -680,5 +678,63 @@ gonzoboashe Command list
 
 **swdel**: Command has no documentation.
 
-**unrestrict_cmd_to_group**: &lt;command, group&gt; - Removes 'group' from the restriction list for 'command'
+###### Manage user groups. A user group can be set to 'own' a command, so that only users of the user group can use that command.
+**add_user_group**: &lt;group name&gt; - Create a user group
+
+**list_user_groups**: List user groups
+
+**del_user_group**: &lt;group name&gt; - Deletes a user group
+
+###### Manage users inside user groups.
+**add_user_to_ugroup**: &lt;user user-group&gt; - Add user to user group
+
+**list_users_in_ugroup**: Command has no documentation.
+
+**del_user_from_ugroup**: &lt;user user-group&gt; - Delete user from user group
+
+###### Manages groups of channels.A group of channels can be associated to a command, so that the command can be used only in the channels listed in the group of channels.
+**add_chgroup**: &lt;group name&gt; - Create a group of channels
+
+**list_chgroups**: List available groups of channels
+
+**del_chgroup**: &lt;group name&gt; - Delete a group of channels
+
+###### Manages the channels inside a group of channels.
+**add_chan_to_chgroup**: &lt;channel channel-group&gt; - Add channel to channel group
+
+**list_chans_in_chgroup**: &lt;channel-group&gt; - List channels in channel-group
+
+**del_chan_from_chgroup**: &lt;channel channel-group&gt; - Delete channel from channel group
+
+###### Manage user groups that are associated to a command.
+**add_owner_to_cmd**: &lt;command user-group&gt; - Add a user-group to own a command
+
+**list_owners_for_cmd**: &lt;command&gt; - List what user-groups own a command
+
+**del_owners_from_cmd**: &lt;command user-group&gt; - Delete user-group from command ownership list
+
+###### Manage channel groups that are associated to a command.
+**add_chgroup_to_cmd**: &lt;command channel-group&gt; - Add a channel-group to command
+
+**list_chgroups_for_cmd**: &lt;command&gt; - List in what channel-groups command is usable
+
+**del_chgroup_from_cmd**: &lt;command channel-group&gt; - Delete a user-group from a command's ownership
+
+###### Manage blacklisted users. A user can be blacklisted from using ['bot', 'pics', 'emoji']
+**add_blacklist_user**: &lt;user, type&gt; - Restrict user from using type ('bot', 'pics' or 'emoji')
+
+**list_blacklisted_users**: List users with any type of blacklist
+
+**list_blacklist_for_user**: &lt;user&gt; - List blacklist types for user
+
+**del_blacklist_user**: &lt;user, type&gt; - Remove restriction type for user
+
+###### Manage permanent roles that can be given to users users. Permanent roles that can be given to users: ['bulau', 'carcera']
+**add_permarole_for_user**: &lt;user, type&gt; - Add permarole ('bulau', 'carcera') to user
+
+**list_users_with_permaroles**: List users that have permaroles assigned
+
+**list_permaroles_for_user**: &lt;user&gt; - List permarole types for user
+
+**del_permarole_user**: &lt;user, type&gt; - Delete permarole type for user
 
