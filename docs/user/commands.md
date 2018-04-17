@@ -11,25 +11,17 @@ gonzoboashe Command list
 ### circulaba
 
 ------
-**8**: &lt;question&gt; - asks the all knowing magic electronic eight ball &lt;question&gt;
-
 **8ball**: &lt;question&gt; - asks the all knowing magic electronic eight ball &lt;question&gt;
 
 **about**: Command has no documentation.
 
-**aesthetic**: &lt;string&gt; -- Converts &lt;string&gt; to full width characters.
-
 **aplauze**: Command has no documentation.
-
-**ask**: chat with cleverbot.com
 
 **awesome**: - Prints a webpage to show &lt;nick&gt; how awesome they are.
 
 **aww**: Command has no documentation.
 
 **ayy**: Command has no documentation.
-
-**b**: &lt;query&gt; - returns the first bing search result for &lt;query&gt;
 
 **bang**: - when there is a duck on the loose use this command to shoot it.
 
@@ -43,21 +35,15 @@ gonzoboashe Command list
 
 **befriend**: - when there is a duck on the loose use this command to befriend it before someone else shoots it.
 
-**bf**: &lt;prog&gt; - executes &lt;prog&gt; as Brainfuck code
-
 **bible**: &lt;passage&gt; - Prints the specified passage from the Bible
 
 **bing**: &lt;query&gt; - returns the first bing search result for &lt;query&gt;
-
-**bingimage**: &lt;query&gt; - returns the first bing image search result for &lt;query&gt;
 
 **bis**: &lt;query&gt; - returns the first bing image search result for &lt;query&gt;
 
 **bitcoin**: - Returns the current bitcoin value
 
 **bitter**: Command has no documentation.
-
-**boobies**: - prints boobies!
 
 **boobs**: - prints boobies!
 
@@ -85,19 +71,13 @@ gonzoboashe Command list
 
 **cake**: &lt;user&gt; - gives a cake to &lt;user&gt;
 
-**capitalise**: &lt;string&gt; -- Capitalizes &lt;string&gt;.
-
 **capitalize**: &lt;string&gt; -- Capitalizes &lt;string&gt;.
 
 **catgifs**: - gets a fucking cat gif.
 
 **cats**: - gets a fucking fact about cats.
 
-**cb**: chat with cleverbot.com
-
 **cereal**: &lt;user&gt; - gives cereal to &lt;user&gt;
-
-**checkbase64**: &lt;string&gt; -- Checks if &lt;string&gt; is a valid base64 encoded string
 
 **cheese**: &lt;user&gt; - gives cheese to &lt;user&gt;
 
@@ -106,10 +86,6 @@ gonzoboashe Command list
 **chocolate**: &lt;user&gt; - gives chocolate to &lt;user&gt;
 
 **choose**: &lt;choice1&gt;, &lt;choice2&gt;, &lt;choice3&gt;, etc. - randomly picks one of the given choices
-
-**cipher**: &lt;pass&gt; &lt;string&gt; -- cyphers &lt;string&gt; with &lt;password&gt;
-
-**cleverbot**: chat with cleverbot.com
 
 **coa**: Command has no documentation.
 
@@ -127,11 +103,7 @@ gonzoboashe Command list
 
 **cookie**: &lt;user&gt; - gives a cookie to &lt;user&gt;
 
-**cool**: - Prints a webpage to show &lt;nick&gt; how awesome they are.
-
 **crypto**: &lt;ticker&gt; &lt;currency&gt; - Returns current value of a cryptocurrency
-
-**cryptocurrency**: &lt;ticker&gt; &lt;currency&gt; - Returns current value of a cryptocurrency
 
 **cypher**: &lt;pass&gt; &lt;string&gt; -- cyphers &lt;string&gt; with &lt;password&gt;
 
@@ -143,17 +115,11 @@ gonzoboashe Command list
 
 **debase64**: &lt;string&gt; -- Decode &lt;string&gt; with base64.
 
-**decipher**: &lt;pass&gt; &lt;string&gt; - decyphers &lt;string&gt; with &lt;password&gt;
-
 **decypher**: &lt;pass&gt; &lt;string&gt; - decyphers &lt;string&gt; with &lt;password&gt;
 
 **derpify**: &lt;text&gt; - returns some amusing responses from your input.
 
 **dex**: Command has no documentation.
-
-**dice**: &lt;dice roll&gt; - simulates dice rolls. Example: 'dice 2d20-d5+4 roll 2': D20s, subtract 1D5, add 4
-
-**discuvver**: Command has no documentation.
 
 **doge**: - Returns the current dogecoin value
 
@@ -164,10 +130,6 @@ gonzoboashe Command list
 **doit**: - prints a do it line, example: mathmaticians do with a pencil
 
 **domain**: &lt;domain&gt; - uses domain.nr's API to search for a domain, and similar domains
-
-**domainr**: &lt;domain&gt; - uses domain.nr's API to search for a domain, and similar domains
-
-**dominate**: Just a little bit of kinky fun.
 
 **donut**: &lt;user&gt; - gives a donut to &lt;user&gt;
 
@@ -187,14 +149,6 @@ gonzoboashe Command list
 
 **duckstats**: - Prints duck statistics for the entire channel and totals for the network.
 
-**dwi**: &lt;nick&gt; - Tell &lt;nick&gt; in the channel to deal with it. Code located in reactions.py
-
-**e**: &lt;word&gt; - retrieves the etymology of &lt;word&gt;
-
-**eightball**: &lt;question&gt; - asks the all knowing magic electronic eight ball &lt;question&gt;
-
-**end**: &lt;user&gt; - kills &lt;user&gt;
-
 **escape**: &lt;string&gt; -- Unicode escapes &lt;string&gt;.
 
 **etymology**: &lt;word&gt; - retrieves the etymology of &lt;word&gt;
@@ -211,29 +165,15 @@ gonzoboashe Command list
 
 **flip**: &lt;text&gt; - Flips &lt;text&gt; over.
 
-**flirt**: &lt;user&gt; - flirts with &lt;user&gt;
-
 **fmk**: &lt;nick&gt; - Fuck, Marry, Kill
 
-**foaas**: &lt;name&gt; - tell some one to fuck off or just .fos for a generic fuckoff
-
 **fortune**: - hands out a fortune cookie
-
-**fos**: &lt;name&gt; - tell some one to fuck off or just .fos for a generic fuckoff
-
-**fp**: &lt;nick&gt; - Expresses your frustration with &lt;Nick&gt;. Code located in reactions.py
 
 **friends**: &lt;{global|average}&gt; - Prints a list of the top duck friends in the channel, if 'global' is specified all channels in the database are included.
 
 **fuckoff**: &lt;name&gt; - tell some one to fuck off or just .fos for a generic fuckoff
 
-**fw**: &lt;string&gt; -- Converts &lt;string&gt; to full width characters.
-
 **g**: &lt;query&gt; - Uses the dogpile search engine to find shit on the web.
-
-**gbooks**: &lt;query&gt; - Searches Google Books for &lt;query&gt;.
-
-**gfy**: &lt;phrase&gt; - gets a lmgtfy.com link for the specified phrase
 
 **ghissue**: &lt;username|repo&gt; &lt;number&gt; - gets issue &lt;number&gt;'s summary, or the open issue count if no issue is specified
 
@@ -241,13 +181,7 @@ gonzoboashe Command list
 
 **gift**: &lt;user&gt; - gives gift to &lt;user&gt;
 
-**giphy**: &lt;query&gt; - Searches giphy.com for a gif using the provided search term.
-
 **gitio**: &lt;url&gt; &lt;custom&gt; - shortens a github URL &lt;url&gt; using git.io with &lt;custom&gt; as an optional custom shortlink,
-
-**gonzo**: chat with cleverbot.com
-
-**gonzobot**: chat with cleverbot.com
 
 **googl**: &lt;url&gt; &lt;custom&gt; - shorten &lt;url&gt; using goo.gl with &lt;custom&gt; as an option custom shortlink,
 
@@ -256,8 +190,6 @@ gonzoboashe Command list
 **halal**: &lt;user&gt; - gives food to &lt;user&gt;
 
 **hash**: &lt;string&gt; -- Returns hashes of &lt;string&gt;.
-
-**hd**: &lt;nick&gt; - Hit your head against the desk becausae of &lt;nick&gt;. Code located in reactions.py
 
 **headdesk**: &lt;nick&gt; - Hit your head against the desk becausae of &lt;nick&gt;. Code located in reactions.py
 
@@ -271,17 +203,11 @@ gonzoboashe Command list
 
 **isbase64**: &lt;string&gt; -- Checks if &lt;string&gt; is a valid base64 encoded string
 
-**iscool**: - Prints a webpage to show &lt;nick&gt; how awesome they are.
-
 **isgd**: &lt;url&gt; &lt;custom&gt; - shortens a url using is.gd with &lt;custom&gt; as an optional custom shortlink,
 
 **issafe**: &lt;website&gt; -- Checks the website against Google's Safe Browsing List.
 
-**issue**: &lt;username|repo&gt; &lt;number&gt; - gets issue &lt;number&gt;'s summary, or the open issue count if no issue is specified
-
 **isup**: &lt;url&gt; - uses isup.me to check if &lt;url&gt; is online or offline
-
-**jackmeoff**: &lt;user&gt; - flirts with &lt;user&gt;
 
 **jailbait**: Command has no documentation.
 
@@ -292,10 +218,6 @@ gonzoboashe Command list
 **kenm**: - Wisdom from Ken M.
 
 **kernel**: - gets a list of linux kernel versions
-
-**kero**: - Returns the text input the way kerouac5 would say it.
-
-**kerowhack**: - Returns the text input the way kerouac5 would say it.
 
 **keto**: &lt;user&gt; - gives food to &lt;user&gt;
 
@@ -323,21 +245,13 @@ gonzoboashe Command list
 
 **ltc**: - Returns the current litecoin value
 
-**luff**: lurves all over &lt;user&gt;
-
 **lurve**: lurves all over &lt;user&gt;
-
-**luv**: lurves all over &lt;user&gt;
-
-**mc**: &lt;all|movie|tv|album|x360|ps3|pc|gba|ds|3ds|wii|vita|wiiu|xone|ps4&gt; &lt;title&gt; - gets rating for &lt;title&gt; from
 
 **mcioran**: Command has no documentation.
 
 **metacritic**: &lt;all|movie|tv|album|x360|ps3|pc|gba|ds|3ds|wii|vita|wiiu|xone|ps4&gt; &lt;title&gt; - gets rating for &lt;title&gt; from
 
 **metar**: &lt;ICAO station code&gt; - returns the metars information for the specified station. A list of station codes can be found here: http://weather.rap.ucar.edu/surface/stations.txt
-
-**mfp**: &lt;user&gt; - returns macros from the MyFitnessPal food diary of &lt;user&gt;
 
 **milkshake**: &lt;user&gt; - gives a milkshake to &lt;user&gt;
 
@@ -365,13 +279,7 @@ gonzoboashe Command list
 
 **nugget**: &lt;user&gt; - gives nuggets to &lt;user&gt;
 
-**offline**: &lt;url&gt; - checks if &lt;url&gt; is online or offline
-
 **pancake**: &lt;user&gt; - gives pancakes to &lt;user&gt;
-
-**passage**: &lt;passage&gt; - Prints the specified passage from the Bible
-
-**password**: &lt;length &lt;types&gt;&gt; - generates a password of &lt;length&gt; (default 12). &lt;types&gt; can include 'alpha', 'no caps', 'numeric', 'symbols' or any combination: eg. 'numbers symbols' (default: alpha numeric no caps)
 
 **pasta**: &lt;user&gt; - gives pasta to &lt;user&gt;
 
@@ -385,13 +293,9 @@ gonzoboashe Command list
 
 **potato**: &lt;user&gt; - gives a potato to &lt;user&gt;
 
-**present**: &lt;user&gt; - gives gift to &lt;user&gt;
-
 **pun**: - Come on everyone loves puns right?
 
 **puti**: Command has no documentation.
-
-**qr**: &lt;link&gt; - returns a link to a QR code image for &lt;link&gt;
 
 **qrcode**: &lt;link&gt; - returns a link to a QR code image for &lt;link&gt;
 
@@ -399,11 +303,7 @@ gonzoboashe Command list
 
 **rainbow**: &lt;text&gt; -- Gives &lt;text&gt; rainbow colors.
 
-**randomsite**: Command has no documentation.
-
 **randomusefulsite**: Command has no documentation.
-
-**randomwebsite**: Command has no documentation.
 
 **reverse**: &lt;string&gt; -- Reverses &lt;string&gt;.
 
@@ -415,13 +315,7 @@ gonzoboashe Command list
 
 **rottentomatoes**: &lt;title&gt; - gets ratings for &lt;title&gt; from Rotten Tomatoes
 
-**rt**: &lt;title&gt; - gets ratings for &lt;title&gt; from Rotten Tomatoes
-
-**ruad**: checks ruadick.com to see if you're a dick on reddit
-
 **ruadick**: checks ruadick.com to see if you're a dick on reddit
-
-**rud**: checks ruadick.com to see if you're a dick on reddit
 
 **sandwich**: &lt;user&gt; - gives a sandwich to &lt;user&gt;
 
@@ -479,19 +373,13 @@ gonzoboashe Command list
 
 **titlecase**: &lt;string&gt; -- Convert string to title case.
 
-**tmf**: &lt;nick&gt; - Did some one just mention what your fetish was? Let &lt;nick&gt; know! Code located in reactions.py
-
 **triforce**: - returns a triforce!
 
 **trump**: trump a user.
 
 **u**: urban &lt;phrase&gt; &lt;id&gt; -- Looks up &lt;phrase&gt; on urbandictionary.com.
 
-**unbase64**: &lt;string&gt; -- Decode &lt;string&gt; with base64.
-
 **unescape**: &lt;string&gt; -- Unicode unescapes &lt;string&gt;.
-
-**up**: &lt;url&gt; - checks if &lt;url&gt; is online or offline
 
 **upper**: &lt;string&gt; -- Convert string to uppercase.
 
@@ -499,17 +387,9 @@ gonzoboashe Command list
 
 **usa**: &lt;text&gt; -- Makes &lt;text&gt; more patriotic.
 
-**validate**: &lt;url&gt; - Runs url through the W3C Markup Validator.
-
 **vapor**: &lt;string&gt; -- Converts &lt;string&gt; to full width characters.
 
-**verse**: &lt;verse&gt; - Prints the specified Qur'anic verse(s) and its/their translation(s)
-
-**w**: &lt;phrase&gt; - Gets first sentence of Wikipedia article on &lt;phrase&gt;.
-
 **w3c**: &lt;url&gt; - Runs url through the W3C Markup Validator.
-
-**we**: &lt;location&gt; - Gets weather data for &lt;location&gt;.
 
 **weather**: &lt;location&gt; - Gets weather data for &lt;location&gt;.
 
@@ -517,17 +397,9 @@ gonzoboashe Command list
 
 **wiki**: &lt;phrase&gt; - Gets first sentence of Wikipedia article on &lt;phrase&gt;.
 
-**wikipedia**: &lt;phrase&gt; - Gets first sentence of Wikipedia article on &lt;phrase&gt;.
-
 **wine**: &lt;user&gt; - gives wine to &lt;user&gt;
 
 **wisdom**: - words of wisdom from various bathroom stalls.
-
-**wordpass**: &lt;length&gt; - generates an easy to remember password with &lt;length&gt; (default 4) commonly used words
-
-**wordpassword**: &lt;length&gt; - generates an easy to remember password with &lt;length&gt; (default 4) commonly used words
-
-**wpass**: &lt;length&gt; - generates an easy to remember password with &lt;length&gt; (default 4) commonly used words
 
 **wrainbow**: &lt;text&gt; -- Gives each word in &lt;text&gt; rainbow colors.
 
@@ -549,8 +421,6 @@ gonzoboashe Command list
 **shrug**: - shrugs
 
 **urban**: urban &lt;phrase&gt; &lt;id&gt; -- Looks up &lt;phrase&gt; on urbandictionary.com.
-
-**we**: &lt;location&gt; - Gets weather data for &lt;location&gt;.
 
 **weather**: &lt;location&gt; - Gets weather data for &lt;location&gt;.
 
