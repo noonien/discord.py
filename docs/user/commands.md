@@ -95,8 +95,6 @@ gonzoboashe Command list
 
 **cola**: Command has no documentation.
 
-**color_parse**: Command has no documentation.
-
 **compliment**: &lt;user&gt; -- Makes the bot compliment &lt;user&gt;.
 
 **confucious**: - confucious say man standing on toilet is high on pot.
@@ -301,8 +299,6 @@ gonzoboashe Command list
 
 **quran**: &lt;verse&gt; - Prints the specified Qur'anic verse(s) and its/their translation(s)
 
-**rainbow**: &lt;text&gt; -- Gives &lt;text&gt; rainbow colors.
-
 **randomusefulsite**: Command has no documentation.
 
 **reverse**: &lt;string&gt; -- Reverses &lt;string&gt;.
@@ -385,8 +381,6 @@ gonzoboashe Command list
 
 **urban**: urban &lt;phrase&gt; &lt;id&gt; -- Looks up &lt;phrase&gt; on urbandictionary.com.
 
-**usa**: &lt;text&gt; -- Makes &lt;text&gt; more patriotic.
-
 **vapor**: &lt;string&gt; -- Converts &lt;string&gt; to full width characters.
 
 **w3c**: &lt;url&gt; - Runs url through the W3C Markup Validator.
@@ -401,8 +395,6 @@ gonzoboashe Command list
 
 **wisdom**: - words of wisdom from various bathroom stalls.
 
-**wrainbow**: &lt;text&gt; -- Gives each word in &lt;text&gt; rainbow colors.
-
 **xkcd**: &lt;search term&gt; - Search for xkcd comic matching &lt;search term&gt;
 
 **yomomma**: &lt;nick&gt; - tells a yo momma joke to &lt;nick&gt;
@@ -414,11 +406,17 @@ gonzoboashe Command list
 ------
 **dex**: Command has no documentation.
 
+**fix**: &lt;text&gt; - fixes a flipped over table. ┬─┬ノ(ಠ_ಠノ)
+
 **flenny**: flenny is watching.
 
 **lenny**: why the shit not lennyface
 
+**pisi**: Command has no documentation.
+
 **shrug**: - shrugs
+
+**table**: &lt;text&gt; - (╯°□°）╯︵ &lt;ʇxǝʇ&gt;
 
 **urban**: urban &lt;phrase&gt; &lt;id&gt; -- Looks up &lt;phrase&gt; on urbandictionary.com.
 
