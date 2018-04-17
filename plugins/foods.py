@@ -100,10 +100,7 @@ def basic_format(text, nick, data, **kwargs):
 
 
 def basic_food(food):
-    def func(text, nick, action, is_nick_valid):
-        if not is_nick_valid(text):
-            return "I can't give {} to that user.".format(food.unit)
-
+    def func(text, nick, action):
         action(basic_format(text, nick, basic_food_data[food.name]))
 
     func.__name__ = food.name

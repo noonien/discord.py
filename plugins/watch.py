@@ -107,7 +107,7 @@ def checker(bot):
     tstamps = {}
     for row in db_subs:
         tstamps[row['sub']] = row['timestamp']
-    print("Checking")
+    #print("Checking")
     for conn in bot.connections:
         for csub in tstamps:
             try:
@@ -125,7 +125,7 @@ def checker(bot):
             except BaseException as e:
                 print(str(e))
                 print("Exception generated for sub: " + csub)
-    print("Done.")
+    #print("Done.")
 
 @hook.command("swlist")
 def list_logs(text):

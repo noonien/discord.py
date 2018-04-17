@@ -9,6 +9,10 @@ MAX_OVERLAP_RATIO = 0.5
 MAX_OVERLAP_TOTAL = 10
 
 @hook.command
+def shrug(message, text, nick):
+    message("¯\_(ツ)_/¯")
+
+@hook.command
 def dance(message, text, nick):
     dance = [
             "└@(･◡･)@┐",

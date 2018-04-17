@@ -42,7 +42,6 @@ def wrap_message(comm):
 def checker(bot):
     global USER_AGENT
     global LAST_CHECK
-
     for conn in bot.connections:
         try:
             r = praw.Reddit("irc_bot", user_agent=USER_AGENT)

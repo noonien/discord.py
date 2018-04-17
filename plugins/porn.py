@@ -3,6 +3,7 @@ import re
 import praw
 import random
 import asyncio
+import discord
 from cloudbot import hook
 from datetime import datetime
 from sqlalchemy import Table, Column, String, PrimaryKeyConstraint, DateTime
@@ -51,6 +52,7 @@ def refresh_cache(r, el):
     g_db.commit()
 
     new_links =  get_links_from_sub(r, el)
+    print("Adding %d links" % len(new_links))
 
     last_fetch = datetime.utcnow()
 
@@ -70,6 +72,12 @@ def del_sub(sub):
     g_db.commit()
 
 def get_links_from_subs(sub):
+    try:
+        return _get_links_from_subs(sub)
+    except:
+        return("My owner is too dumb to fix me. Please try again")
+
+def _get_links_from_subs(sub):
     data = []
     r = praw.Reddit("irc_bot", user_agent=USER_AGENT)
 
@@ -144,13 +152,29 @@ def init(db):
 
         startpos += len(start)
 
-@hook.periodic(300, initial_interval=300)
+@hook.periodic(300, single_threaded=True)
 def refresh_porn():
     print("Refreshing...")
     db_subs = g_db.execute(select([subs.c.subreddit]))
     for el in db_subs:
         fake_list = [el['subreddit']]
         get_links_from_subs(fake_list)
+
+@hook.command()
+def force_refresh_porn():
+    r = praw.Reddit("irc_bot", user_agent=USER_AGENT)
+    db_subs = g_db.execute(select([subs.c.subreddit]))
+    for el in db_subs:
+        try:
+            refresh_cache(r, el['subreddit'])
+        except Exception as e:
+            print(e)
+            pass
+
+@hook.command()
+def jailbait(bot, message, server):
+    mue = discord.utils.get(server.emojis, name='viomuie')
+    message("ia de aici <:%s:%s>" % (mue.name, mue.id))
 
 @hook.command()
 def roscate(message, text, nick):
@@ -250,7 +274,7 @@ def capre():
 
 @hook.command()
 def lesbiene():
-    data = get_links_from_subs(['dykesgonewild', 'dyke'])
+    data = get_links_from_subs(['dykesgonewild'])
 
     return random.choice(data) + " NSFW!"
 

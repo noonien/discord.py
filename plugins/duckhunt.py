@@ -26,14 +26,6 @@ table = Table(
     PrimaryKeyConstraint('name', 'chan', 'network')
 )
 
-optout = Table(
-    'nohunt',
-    database.metadata,
-    Column('network', String),
-    Column('chan', String),
-    PrimaryKeyConstraint('chan', 'network')
-)
-
 status_table = Table(
     'duck_status',
     database.metadata,
@@ -67,7 +59,8 @@ MASK_REQ = 3
 scripters = defaultdict(int)
 game_status = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
 
-
+# TODO:
+game_status["roddit"]["circulabă"]["game_on"] = 1
 
 @hook.periodic(5 * 60, initial_interval=10 * 60)
 def save_status(db):
@@ -89,12 +82,10 @@ def save_status(db):
 def incrementMsgCounter(event, conn):
     """Increment the number of messages said in an active game channel. Also keep track of the unique masks that are speaking."""
     global game_status
-    if event.chan in opt_out:
-        return
     if game_status[conn.name][event.chan]['game_on'] == 1 and game_status[conn.name][event.chan]['duck_status'] == 0:
         game_status[conn.name][event.chan]['messages'] += 1
-        if event.host not in game_status[conn.name][event.chan]['masks']:
-            game_status[conn.name][event.chan]['masks'].append(event.host)
+        #if event.host not in game_status[conn.name][event.chan]['masks']:
+        #    game_status[conn.name][event.chan]['masks'].append(event.host)
 
 
 @hook.command("starthunt", autohelp=False, permissions=["chanop", "op", "botcontrol"])
@@ -115,7 +106,8 @@ def start_hunt(chan, message, conn):
 def set_ducktime(chan, conn):
     global game_status
     game_status[conn][chan]['next_duck_time'] = random.randint(int(time()) + 480, int(time()) + 3600)
-    # game_status[conn][chan]['flyaway'] = game_status[conn.name][chan]['next_duck_time'] + 600
+    #game_status[conn][chan]['next_duck_time'] = int(time())
+    game_status[conn][chan]['flyaway'] = game_status[conn][chan]['next_duck_time'] + 600
     game_status[conn][chan]['duck_status'] = 0
     # let's also reset the number of messages said and the list of masks that have spoken.
     game_status[conn][chan]['messages'] = 0
@@ -127,8 +119,6 @@ def set_ducktime(chan, conn):
 def stop_hunt(chan, conn):
     """- This command stops the duck hunt in your channel. Scores will be preserved"""
     global game_status
-    if chan in opt_out:
-        return
     if game_status[conn.name][chan]['game_on']:
         game_status[conn.name][chan]['game_on'] = 0
         return "the game has been stopped."
@@ -140,8 +130,6 @@ def stop_hunt(chan, conn):
 def no_duck_kick(text, chan, conn, notice_doc):
     """<enable|disable> - If the bot has OP or half-op in the channel you can specify .duckkick enable|disable so that people are kicked for shooting or befriending a non-existent goose. Default is off."""
     global game_status
-    if chan in opt_out:
-        return
     if text.lower() == 'enable':
         game_status[conn.name][chan]['no_duck_kick'] = 1
         return "users will now be kicked for shooting or befriending non-existent ducks. The bot needs to have appropriate flags to be able to kick users for this to work."
@@ -181,8 +169,7 @@ def deploy_duck(bot):
             next_duck = game_status[network][chan]['next_duck_time']
             chan_messages = game_status[network][chan]['messages']
             chan_masks = game_status[network][chan]['masks']
-            if active == 1 and duck_status == 0 and next_duck <= time() and chan_messages >= MSG_DELAY and len(
-                chan_masks) >= MASK_REQ:
+            if active == 1 and duck_status == 0 and next_duck <= time() and chan_messages >= MSG_DELAY:
                 # deploy a duck to channel
                 game_status[network][chan]['duck_status'] = 1
                 game_status[network][chan]['duck_time'] = time()
@@ -259,8 +246,6 @@ def update_score(nick, chan, db, conn, shoot=0, friend=0):
 
 def attack(nick, chan, message, db, conn, notice, attack):
     global game_status, scripters
-    if chan in opt_out:
-        return
 
     network = conn.name
     status = game_status[network][chan]
@@ -360,8 +345,6 @@ def smart_truncate(content, length=320, suffix='...'):
 @hook.command("friends", autohelp=False)
 def friends(text, chan, conn, db):
     """[{global|average}] - Prints a list of the top duck friends in the channel, if 'global' is specified all channels in the database are included."""
-    if chan in opt_out:
-        return
     friends = defaultdict(int)
     chancount = defaultdict(int)
     if text.lower() == 'global' or text.lower() == 'average':
@@ -395,7 +378,7 @@ def friends(text, chan, conn, db):
             return "it appears no on has friended any ducks yet."
 
     topfriends = sorted(friends.items(), key=operator.itemgetter(1), reverse=True)
-    out += ' • '.join(["{}: {}".format('\x02' + k[:1] + u'\u200b' + k[1:] + '\x02', str(v)) for k, v in topfriends])
+    out += ', '.join(["{}: {}".format('\x02' + k[:1] + u'\u200b' + k[1:] + '\x02', str(v)) for k, v in topfriends])
     out = smart_truncate(out)
     return out
 
@@ -403,8 +386,6 @@ def friends(text, chan, conn, db):
 @hook.command("killers", autohelp=False)
 def killers(text, chan, conn, db):
     """[{global|average}] - Prints a list of the top duck killers in the channel, if 'global' is specified all channels in the database are included."""
-    if chan in opt_out:
-        return
     killers = defaultdict(int)
     chancount = defaultdict(int)
     if text.lower() == 'global' or text.lower() == 'average':
@@ -438,7 +419,7 @@ def killers(text, chan, conn, db):
             return "it appears no on has killed any ducks yet."
 
     topkillers = sorted(killers.items(), key=operator.itemgetter(1), reverse=True)
-    out += ' • '.join(["{}: {}".format('\x02' + k[:1] + u'\u200b' + k[1:] + '\x02', str(v)) for k, v in topkillers])
+    out += ', '.join(["{}: {}".format('\x02' + k[:1] + u'\u200b' + k[1:] + '\x02', str(v)) for k, v in topkillers])
     out = smart_truncate(out)
     return out
 
@@ -452,41 +433,6 @@ def duckforgive(text):
         return "{} has been removed from the mandatory cooldown period.".format(text)
     else:
         return "I couldn't find anyone banned from the hunt by that nick"
-
-
-@hook.command("hunt_opt_out", permissions=["op", "ignore"], autohelp=False)
-def hunt_opt_out(text, chan, db, conn):
-    """[{add <chan>|remove <chan>|list}] - Running this command without any arguments displays the status of the current channel. hunt_opt_out add #channel will disable all duck hunt commands in the specified channel. hunt_opt_out remove #channel will re-enable the game for the specified channel."""
-    if not text:
-        if chan in opt_out:
-            return "Duck hunt is disabled in {}. To re-enable it run .hunt_opt_out remove #channel".format(chan)
-        else:
-            return "Duck hunt is enabled in {}. To disable it run .hunt_opt_out add #channel".format(chan)
-    if text == "list":
-        return ", ".join(opt_out)
-    if len(text.split(' ')) < 2:
-        return "please specify add or remove and a valid channel name"
-    command = text.split()[0]
-    channel = text.split()[1]
-    if not channel.startswith('#'):
-        return "Please specify a valid channel."
-    if command.lower() == "add":
-        if channel in opt_out:
-            return "Duck hunt has already been disabled in {}.".format(channel)
-        query = optout.insert().values(
-            network=conn.name,
-            chan=channel.lower())
-        db.execute(query)
-        db.commit()
-        load_optout(db)
-        return "The duckhunt has been successfully disabled in {}.".format(channel)
-    if command.lower() == "remove":
-        if not channel in opt_out:
-            return "Duck hunt is already enabled in {}.".format(channel)
-        delete = optout.delete(optout.c.chan == channel.lower())
-        db.execute(delete)
-        db.commit()
-        load_optout(db)
 
 
 @hook.command("duckmerge", permissions=["botcontrol"])

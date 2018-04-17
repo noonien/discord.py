@@ -99,16 +99,13 @@ def boobies(text):
 
 
 @hook.command("awesome", "iscool", "cool")
-def awesome(text, is_nick_valid):
+def awesome(text):
     """- Prints a webpage to show <nick> how awesome they are."""
     link = 'http://is-awesome.cool/{}'
     nick = text.split(' ')[0]
-    if is_nick_valid(nick):
-        return "{}: I am blown away by your recent awesome action(s). Please read \x02{}\x02".format(
+    return "{}: I am blown away by your recent awesome action(s). Please read \x02{}\x02".format(
             nick, link.format(nick)
         )
-    else:
-        return "Sorry I can't tell {} how awesome they are.".format(nick)
 
 
 @hook.command(autohelp=False)
