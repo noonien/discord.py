@@ -37,7 +37,7 @@ def find_hooks(parent, module):
     event = []
     periodic = []
     on_start = []
-    type_lists = {"command": command, "regex": regex, "irc_raw": raw, "sieve": sieve, "event": event,
+    type_lists = {"command": command, "regex": regex, "msg_raw": raw, "sieve": sieve, "event": event,
                   "periodic": periodic, "on_start": on_start}
     for name, func in module.__dict__.items():
         if hasattr(func, "_cloudbot_hook"):
@@ -77,7 +77,7 @@ class PluginManager:
 
     Plugins are the lowest level of abstraction in this class. There are four different plugin types:
     - CommandPlugin is for bot commands
-    - RawPlugin hooks onto irc_raw irc lines
+    - RawPlugin hooks onto msg_raw lines and are called earlier, for validation purposes
     - RegexPlugin loads a regex parameter, and executes on irc lines which match the regex
     - SievePlugin is a catch-all sieve, which all other plugins go through before being executed.
 
@@ -620,14 +620,14 @@ class RawHook(Hook):
     :type triggers: set[str]
     """
 
-    def __init__(self, plugin, irc_raw_hook):
+    def __init__(self, plugin, msg_raw_hook):
         """
         :type plugin: Plugin
-        :type irc_raw_hook: cloudbot.util.hook._RawHook
+        :type msg_raw_hook: cloudbot.util.hook._RawHook
         """
-        super().__init__("irc_raw", plugin, irc_raw_hook)
+        super().__init__("msg_raw", plugin, msg_raw_hook)
 
-        self.triggers = irc_raw_hook.triggers
+        self.triggers = msg_raw_hook.triggers
 
     def is_catch_all(self):
         return "*" in self.triggers
@@ -697,7 +697,7 @@ class OnStartHook(Hook):
 _hook_name_to_plugin = {
     "command": CommandHook,
     "regex": RegexHook,
-    "irc_raw": RawHook,
+    "msg_raw": RawHook,
     "sieve": SieveHook,
     "event": EventHook,
     "periodic": PeriodicHook,
