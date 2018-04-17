@@ -115,7 +115,7 @@ class _RawHook(_Hook):
         """
         :type function: function
         """
-        _Hook.__init__(self, function, "irc_raw")
+        _Hook.__init__(self, function, "msg_raw")
         self.triggers = set()
 
     def add_hook(self, trigger_param, kwargs):
@@ -212,13 +212,13 @@ def command(*args, **kwargs):
         return lambda func: _command_hook(func, alias_param=args)
 
 
-def irc_raw(triggers_param, **kwargs):
+def msg_raw(triggers_param, **kwargs):
     """External raw decorator. Must be used as a function to return a decorator
     :type triggers_param: str | list[str]
     """
 
     def _raw_hook(func):
-        hook = _get_hook(func, "irc_raw")
+        hook = _get_hook(func, "msg_raw")
         if hook is None:
             hook = _RawHook(func)
             _add_hook(func, hook)
@@ -227,7 +227,7 @@ def irc_raw(triggers_param, **kwargs):
         return func
 
     if callable(triggers_param):  # this decorator is being used directly, which isn't good
-        raise TypeError("@irc_raw() must be used as a function that returns a decorator")
+        raise TypeError("@msg_raw() must be used as a function that returns a decorator")
     else:  # this decorator is being used as a function, so return a decorator
         return lambda func: _raw_hook(func)
 
@@ -247,7 +247,7 @@ def event(types_param, **kwargs):
         return func
 
     if callable(types_param):  # this decorator is being used directly, which isn't good
-        raise TypeError("@irc_raw() must be used as a function that returns a decorator")
+        raise TypeError("@msg_raw() must be used as a function that returns a decorator")
     else:  # this decorator is being used as a function, so return a decorator
         return lambda func: _event_hook(func)
 

@@ -33,15 +33,16 @@ class Event:
     :type mask: str
     :type db: sqlalchemy.orm.Session
     :type db_executor: concurrent.futures.ThreadPoolExecutor
-    :type irc_raw: str
+    :type msg_raw: str
     :type irc_prefix: str
     :type irc_command: str
     :type irc_paramlist: str
     :type irc_ctcp_text: str
+    :type dmsg: discord.message
     """
 
     def __init__(self, *, bot=None, hook=None, conn=None, base_event=None, event_type=EventType.other, content=None,
-                 target=None, channel=None, nick=None, author=None, user=None, host=None, mask=None, irc_raw=None, irc_prefix=None,
+                 target=None, channel=None, nick=None, author=None, user=None, host=None, mask=None, msg_raw=None, irc_prefix=None,
                  irc_command=None, irc_paramlist=None, irc_ctcp_text=None):
         """
         All of these parameters except for `bot` and `hook` are optional.
@@ -62,7 +63,7 @@ class Event:
         :param user: The user of the sender that triggered this event
         :param host: The host of the sender that triggered this event
         :param mask: The mask of the sender that triggered this event (nick!user@host)
-        :param irc_raw: The raw IRC line
+        :param msg_raw: The raw line
         :param irc_prefix: The raw IRC prefix
         :param irc_command: The IRC command
         :param irc_paramlist: The list of params for the IRC command. If the last param is a content param, the ':'
@@ -79,7 +80,7 @@ class Event:
         :type user: str
         :type host: str
         :type mask: str
-        :type irc_raw: str
+        :type msg_raw: str
         :type irc_prefix: str
         :type irc_command: str
         :type irc_paramlist: list[str]
@@ -90,6 +91,7 @@ class Event:
         self.bot = bot
         self.conn = conn
         self.hook = hook
+        self.server = None
         if base_event is not None:
             # We're copying an event, so inherit values
             if self.bot is None and base_event.bot is not None:
@@ -109,12 +111,14 @@ class Event:
             self.user = base_event.user
             self.host = base_event.host
             self.mask = base_event.mask
+            self.server = base_event.server
             # clients-specific parameters
-            self.irc_raw = base_event.irc_raw
+            self.msg_raw = base_event.msg_raw
             self.irc_prefix = base_event.irc_prefix
             self.irc_command = base_event.irc_command
             self.irc_paramlist = base_event.irc_paramlist
             self.irc_ctcp_text = base_event.irc_ctcp_text
+            self.dmsg = base_event.dmsg
         else:
             # Since base_event wasn't provided, we can take these parameters
             self.type = event_type
@@ -127,7 +131,7 @@ class Event:
             self.host = host
             self.mask = mask
             # clients-specific parameters
-            self.irc_raw = irc_raw
+            self.msg_raw = msg_raw
             self.irc_prefix = irc_prefix
             self.irc_command = irc_command
             self.irc_paramlist = irc_paramlist
@@ -147,7 +151,7 @@ class Event:
             raise ValueError("event.hook is required to prepare an event")
 
         if "db" in self.hook.required_args:
-            #logger.debug("Opening database session for {}:threaded=False".format(self.hook.description))
+            logger.debug("Opening database session for {}:threaded=False".format(self.hook.description))
 
             # we're running a coroutine hook with a db, so initialise an executor pool
             self.db_executor = concurrent.futures.ThreadPoolExecutor(1)
@@ -168,7 +172,7 @@ class Event:
             raise ValueError("event.hook is required to prepare an event")
 
         if "db" in self.hook.required_args:
-            #logger.debug("Opening database session for {}:threaded=True".format(self.hook.description))
+            logger.debug("Opening database session for {}:threaded=True".format(self.hook.description))
 
             self.db = self.bot.db_session()
 
@@ -319,7 +323,7 @@ class CommandEvent(Event):
     """
 
     def __init__(self, *, bot=None, hook, text, triggered_command, conn=None, base_event=None, event_type=None,
-                 content=None, target=None, channel=None, nick=None, user=None, host=None, mask=None, irc_raw=None,
+                 content=None, target=None, channel=None, nick=None, user=None, host=None, mask=None, msg_raw=None,
                  irc_prefix=None, irc_command=None, irc_paramlist=None):
         """
         :param text: The arguments for the command
@@ -328,7 +332,7 @@ class CommandEvent(Event):
         :type triggered_command: str
         """
         super().__init__(bot=bot, hook=hook, conn=conn, base_event=base_event, event_type=event_type, content=content,
-                         target=target, channel=channel, nick=nick, user=user, host=host, mask=mask, irc_raw=irc_raw,
+                         target=target, channel=channel, nick=nick, user=user, host=host, mask=mask, msg_raw=msg_raw,
                          irc_prefix=irc_prefix, irc_command=irc_command, irc_paramlist=irc_paramlist)
         self.hook = hook
         self.text = text
@@ -362,13 +366,13 @@ class RegexEvent(Event):
     """
 
     def __init__(self, *, bot=None, hook, match, conn=None, base_event=None, event_type=None, content=None, target=None,
-                 channel=None, nick=None, user=None, host=None, mask=None, irc_raw=None, irc_prefix=None,
+                 channel=None, nick=None, user=None, host=None, mask=None, msg_raw=None, irc_prefix=None,
                  irc_command=None, irc_paramlist=None):
         """
         :param: match: The match objected returned by the regex search method
         :type match: re.__Match
         """
         super().__init__(bot=bot, conn=conn, hook=hook, base_event=base_event, event_type=event_type, content=content,
-                         target=target, channel=channel, nick=nick, user=user, host=host, mask=mask, irc_raw=irc_raw,
+                         target=target, channel=channel, nick=nick, user=user, host=host, mask=mask, msg_raw=msg_raw,
                          irc_prefix=irc_prefix, irc_command=irc_command, irc_paramlist=irc_paramlist)
         self.match = match
