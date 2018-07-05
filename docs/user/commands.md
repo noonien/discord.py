@@ -430,6 +430,8 @@ gonzoboashe Command list
 ### muzica
 
 ------
+**youtube**: &lt;query&gt; - Returns the first YouTube search result for &lt;query&gt;.
+
 ### porn
 
 ------
