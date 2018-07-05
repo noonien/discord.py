@@ -2,6 +2,7 @@ gonzoboashe Command list
 ------
 ## [circulaba commands](#circulaba)
 ## [general commands](#general)
+## [muzica commands](#muzica)
 ## [porn commands](#porn)
 ## [subwatch commands](#subwatch)
 ## [Unrestricted commands](#unrestricted-commands-1)
@@ -45,6 +46,10 @@ gonzoboashe Command list
 
 **bitter**: Command has no documentation.
 
+**blep**: Command has no documentation.
+
+**bluntlee**: Command has no documentation.
+
 **boobs**: - prints boobies!
 
 **bookpun**: - Suggests a pun of a book title/author.
@@ -58,6 +63,8 @@ gonzoboashe Command list
 **brekky**: &lt;user&gt; - gives brekkie to &lt;user&gt;
 
 **brew**: &lt;query&gt; - returns the first brewerydb search result for &lt;query&gt;
+
+**brutalistu**: Command has no documentation.
 
 **btc**: - Returns the current bitcoin value
 
@@ -103,6 +110,8 @@ gonzoboashe Command list
 
 **crypto**: &lt;ticker&gt; &lt;currency&gt; - Returns current value of a cryptocurrency
 
+**cutu**: Command has no documentation.
+
 **cypher**: &lt;pass&gt; &lt;string&gt; -- cyphers &lt;string&gt; with &lt;password&gt;
 
 **dadjoke**: - love em or hate em, bring on the dad jokes.
@@ -118,6 +127,8 @@ gonzoboashe Command list
 **derpify**: &lt;text&gt; - returns some amusing responses from your input.
 
 **dex**: Command has no documentation.
+
+**dinner**: - TELLS YOU WHAT THE F**K YOU SHOULD MAKE FOR DINNER
 
 **doge**: - Returns the current dogecoin value
 
@@ -140,8 +151,6 @@ gonzoboashe Command list
 **drink**: &lt;nick&gt; - makes the user a random cocktail.
 
 **duckforgive**: &lt;nick&gt; - Allows people to be removed from the mandatory cooldown period.
-
-**duckkick**: &lt;enable|disable&gt; - If the bot has OP or half-op in the channel you can specify .duckkick enable|disable so that people are kicked for shooting or befriending a non-existent goose. Default is off.
 
 **ducks**: &lt;nick&gt; - Prints a users duck stats. If no nick is input it will check the calling username.
 
@@ -206,8 +215,6 @@ gonzoboashe Command list
 **issafe**: &lt;website&gt; -- Checks the website against Google's Safe Browsing List.
 
 **isup**: &lt;url&gt; - uses isup.me to check if &lt;url&gt; is online or offline
-
-**jailbait**: Command has no documentation.
 
 **jupi**: Command has no documentation.
 
@@ -335,8 +342,6 @@ gonzoboashe Command list
 
 **starthunt**: - This command starts a duckhunt in your channel, to stop the hunt use .stophunt
 
-**startwatch**: Command has no documentation.
-
 **steak**: &lt;user&gt; - gives a nice steak dinner to &lt;user&gt;
 
 **stock**: &lt;symbol&gt; -- gets stock information
@@ -399,11 +404,11 @@ gonzoboashe Command list
 
 **yomomma**: &lt;nick&gt; - tells a yo momma joke to &lt;nick&gt;
 
-**youtube**: &lt;query&gt; - Returns the first YouTube search result for &lt;query&gt;.
-
 ### general
 
 ------
+**bitter**: Command has no documentation.
+
 **dex**: Command has no documentation.
 
 **fix**: &lt;text&gt; - fixes a flipped over table. ┬─┬ノ(ಠ_ಠノ)
@@ -418,10 +423,13 @@ gonzoboashe Command list
 
 **table**: &lt;text&gt; - (╯°□°）╯︵ &lt;ʇxǝʇ&gt;
 
-**urban**: urban &lt;phrase&gt; &lt;id&gt; -- Looks up &lt;phrase&gt; on urbandictionary.com.
+**time**: &lt;location&gt; - Gets the current time in &lt;location&gt;.
 
 **weather**: &lt;location&gt; - Gets weather data for &lt;location&gt;.
 
+### muzica
+
+------
 ### porn
 
 ------
@@ -443,6 +451,8 @@ gonzoboashe Command list
 
 **gis**: &lt;query&gt; - Uses the dogpile search engine to search for images.
 
+**jailbait**: Command has no documentation.
+
 **lesbiene**: Command has no documentation.
 
 **milf**: Command has no documentation.
@@ -463,21 +473,13 @@ gonzoboashe Command list
 
 **tzatze**: Command has no documentation.
 
-**youtube**: &lt;query&gt; - Returns the first YouTube search result for &lt;query&gt;.
-
 ### subwatch
 
 ------
-**startwatch**: Command has no documentation.
-
-**swlist**: Command has no documentation.
-
 ### Unrestricted commands
 
 ------
 **gamer**: Command has no documentation.
-
-**help**: &lt;command&gt; - gives help for &lt;command&gt;, or lists all available commands if no command is specified
 
 ### Special commands
 
@@ -486,11 +488,7 @@ gonzoboashe Command list
 
 **genhelp**: Command has no documentation.
 
-**stopwatch**: Command has no documentation.
-
-**swadd**: Command has no documentation.
-
-**swdel**: Command has no documentation.
+**plp**: Command has no documentation.
 
 ###### Manage user groups. A user group can be set to 'own' a command, so that only users of the user group can use that command.
 **add_user_group**: &lt;group name&gt; - Create a user group
