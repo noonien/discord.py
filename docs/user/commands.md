@@ -481,7 +481,75 @@ gonzoboashe Command list
 ### Unrestricted commands
 
 ------
+**add_blacklist_user**: &lt;user, type&gt; - Restrict user from using type ('bot', 'pics' or 'emoji')
+
+**add_chan_to_chgroup**: &lt;channel channel-group&gt; - Add channel to channel group
+
+**add_chgroup**: &lt;group name&gt; - Create a group of channels
+
+**add_chgroup_to_cmd**: &lt;command channel-group&gt; - Add a channel-group to command
+
+**add_owner_to_cmd**: &lt;command user-group&gt; - Add a user-group to own a command
+
+**add_permarole_for_user**: &lt;user, type&gt; - Add permarole ('bulau', 'carcera') to user
+
+**add_user_group**: &lt;group name&gt; - Create a user group
+
+**add_user_to_ugroup**: &lt;user user-group&gt; - Add user to user group
+
+**del_blacklist_user**: &lt;user, type&gt; - Remove restriction type for user
+
+**del_chan_from_chgroup**: &lt;channel channel-group&gt; - Delete channel from channel group
+
+**del_chgroup**: &lt;group name&gt; - Delete a group of channels
+
+**del_chgroup_from_cmd**: &lt;command channel-group&gt; - Delete a user-group from a command's ownership
+
+**del_owners_from_cmd**: &lt;command user-group&gt; - Delete user-group from command ownership list
+
+**del_permarole_user**: &lt;user, type&gt; - Delete permarole type for user
+
+**del_user_from_ugroup**: &lt;user user-group&gt; - Delete user from user group
+
+**del_user_group**: &lt;group name&gt; - Deletes a user group
+
 **gamer**: Command has no documentation.
+
+**genhelp**: Command has no documentation.
+
+**help**: &lt;command&gt; - gives help for &lt;command&gt;, or lists all available commands if no command is specified
+
+**list_blacklist_for_user**: &lt;user&gt; - List blacklist types for user
+
+**list_blacklisted_users**: List users with any type of blacklist
+
+**list_chans_in_chgroup**: &lt;channel-group&gt; - List channels in channel-group
+
+**list_chgroups**: List available groups of channels
+
+**list_chgroups_for_cmd**: &lt;command&gt; - List in what channel-groups command is usable
+
+**list_owners_for_cmd**: &lt;command&gt; - List what user-groups own a command
+
+**list_permaroles_for_user**: &lt;user&gt; - List permarole types for user
+
+**list_user_groups**: List user groups
+
+**list_users_in_ugroup**: Command has no documentation.
+
+**list_users_with_permaroles**: List users that have permaroles assigned
+
+**plp**: Command has no documentation.
+
+**startwatch**: Command has no documentation.
+
+**stopwatch**: Command has no documentation.
+
+**swadd**: Command has no documentation.
+
+**swdel**: Command has no documentation.
+
+**swlist**: Command has no documentation.
 
 ### Special commands
 
