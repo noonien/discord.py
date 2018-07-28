@@ -419,6 +419,8 @@ gonzoboashe Command list
 
 **pisi**: Command has no documentation.
 
+**roll**: &lt;dice roll&gt; - simulates dice rolls. Example: 'dice 2d20-d5+4 roll 2': D20s, subtract 1D5, add 4
+
 **shrug**: - shrugs
 
 **table**: &lt;text&gt; - (╯°□°）╯︵ &lt;ʇxǝʇ&gt;
@@ -486,6 +488,8 @@ gonzoboashe Command list
 ### Special commands
 
 ------
+**bulau**: &lt;user, duration&gt; - assign bulau role for specified time - duration can be seconds, minutes, hours, days. To set a 10 minute 15 seconds timeout for someone, type: '.bulau @user 10m15s'. The abbrebiations are: s - seconds, m - minutes, h - hours, d - days.
+
 **duckmerge**: &lt;user1&gt; &lt;user2&gt; - Moves the duck scores from one nick to another nick. Accepts two nicks as input the first will have their duck scores removed the second will have the first score added. Warning this cannot be undone.
 
 **genhelp**: Command has no documentation.
